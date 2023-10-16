@@ -1,7 +1,8 @@
 .square {
-    width: 18%;
-    height: 18%;
-    border: 1px solid gray;
-    box-sizing: border-box; 
-    background-color: aqua;
+    width: 19%;
+    height: 19%;
+    border: 3px solid black;
+    box-sizing: border-box;
+    border-radius: 5px;
+    background-color: gray;
 }
