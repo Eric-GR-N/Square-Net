@@ -21,7 +21,14 @@ namespace Presentation.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<SquareNet>> GetSquareNetAsync(Guid id)
         {
-            return Ok();
+            var squareNet = await _squareNetRepository.GetSquareNetByIdAsync(id);
+
+            if(squareNet == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(squareNet);
         }
 
         [HttpPost]

@@ -11,6 +11,7 @@ namespace Infrastructure.Repositories
     public interface ISquareNetRepository
     {
         Task<List<SquareNet>> GetSquareNetsByUserIdAsync(Guid id);
+        Task<SquareNet?> GetSquareNetByIdAsync(Guid id);
         Task UpdateSquareNetAsync(SquareNet updatedSquare);
 
         Task CreateSquareNetAsync(SquareNet squareNet);
@@ -33,6 +34,11 @@ namespace Infrastructure.Repositories
         public async Task CreateSquareNetAsync(SquareNet squareNet)
         {
             await AddAsync(squareNet);
+        }
+
+        public async Task<SquareNet?> GetSquareNetByIdAsync(Guid id)
+        {
+            return await GetByIdAsync(id);
         }
     }
 }
