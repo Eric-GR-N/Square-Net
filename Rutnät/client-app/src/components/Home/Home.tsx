@@ -12,12 +12,13 @@ type Props = {}
 
 export const Home: FC<Props> = () => {
   const [uploadStatus, setUploadStatus] = useState<FetchStatus>(FetchStatus.Idle);
+  const [userSquareNets, setUserSquareNets] = useState<any[]>([]);
 
   useEffect(() => {
     setUploadStatus(FetchStatus.Loading);
-    apiFetch(`https://localhost:7162/api/SquareNet/getAllSquareNetsForUser`, undefined, HttpMethod.GET, false, 'application/json', true)
+    apiFetch<any []>(`https://localhost:7162/api/SquareNet/getAllSquareNetsForUser`, undefined, HttpMethod.GET, false, 'application/json', true)
     .then((data) => {
-        console.log(data);
+        setUserSquareNets(data);
         setUploadStatus(FetchStatus.Success);
     }).catch((err) => {
         console.log(err)
@@ -38,11 +39,15 @@ export const Home: FC<Props> = () => {
 
   return (
     <PageContainer>
-        <PageContentContainer>
-            <Button text="Create New" style={{marginBottom: 10, alignSelf: 'flex-end'}} onClick={handleCreateNewSquareNet}/>
+        <PageContentContainer style={{
+          display: 'flex',
+          flexDirection: 'column',
+          height: '100%'
+          }}>
+            <Button text="Create New" style={{margin: 10, alignSelf: 'flex-end'}} onClick={handleCreateNewSquareNet}/>
             <SquareNetContainer />
             <SaveSquareNetMenu />
-            <SquareNetList squareNets={[1,2,3,4,5,6,7,8]} />
+            <SquareNetList squareNets={[1,2]} />
         </PageContentContainer>
     </PageContainer>
   )

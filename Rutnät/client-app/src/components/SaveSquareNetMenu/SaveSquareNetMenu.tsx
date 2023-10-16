@@ -1,6 +1,7 @@
 import React, { FC } from 'react'
 import { SquareNetListItem } from '../SquareNetListItem';
 import { Button } from '../layout/Button';
+import { Divider } from 'antd';
 
 type Props = {
 }
@@ -9,11 +10,12 @@ export const SaveSquareNetMenu:FC<Props> = ({}) => {
   return (
     <div style={{
         display: 'flex',
+        flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
         width: '100%',
-        margin: '30px 0px'
-
+        minHeight: '100px',
+        margin: '30px 0px',
     }}>
         <form style={{display: 'flex', justifyContent: 'center', width: '100%', flexWrap: 'nowrap'}}>
             <input 

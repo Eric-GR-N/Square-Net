@@ -1,12 +1,12 @@
 import React, { ReactNode } from 'react';
-import './PageContentContainer.css';
 
 interface PageContainerProps{
   children: ReactNode;
+  style?: React.CSSProperties;
 }
-export const PageContentContainer: React.FC<PageContainerProps> = ({ children }) => {
+export const PageContentContainer: React.FC<PageContainerProps> = ({ children, style }) => {
   return (
-    <div className="page-content-container">
+    <div style={style}>
       {children}
     </div>
   );

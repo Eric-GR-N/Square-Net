@@ -15,10 +15,11 @@ export const SquareNetList:FC<Props> = ({
         height: '30%',
         overflow: 'auto',
     }}>
+        <Divider orientation="center" style={{borderTopColor: 'black'}}>Sparade Rutnät</Divider>
         {
             squareNets.map((squareNet, idx) => {
                 return (
-                    <SquareNetListItem key={idx} />
+                    <SquareNetListItem key={idx} text={squareNet?.name}/>
             )})
         }
     </div>
