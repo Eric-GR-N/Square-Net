@@ -44,10 +44,10 @@ export const Home: FC<Props> = () => {
           flexDirection: 'column',
           height: '100%'
           }}>
-            <Button text="Create New" style={{margin: 10, alignSelf: 'flex-end'}} onClick={handleCreateNewSquareNet}/>
+            <Button text="Create New" style={{margin: '30px 0px', alignSelf: 'flex-end'}} onClick={handleCreateNewSquareNet}/>
             <SquareNetContainer />
             <SaveSquareNetMenu />
-            <SquareNetList squareNets={[1,2]} />
+            <SquareNetList squareNets={[1,1,1,1,1,1,1,1,1,1]} />
         </PageContentContainer>
     </PageContainer>
   )
