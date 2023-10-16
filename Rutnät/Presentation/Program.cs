@@ -22,7 +22,7 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(configuration.GetConnectionString("DbConnectionString"),
-    b => b.MigrationsAssembly("../Infrastructure")));
+    b => b.MigrationsAssembly("Infrastructure")));
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
