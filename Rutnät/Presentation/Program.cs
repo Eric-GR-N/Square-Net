@@ -49,7 +49,7 @@ builder.Services.AddAuthentication("Bearer")
     .AddIdentityServerAuthentication("Bearer", options =>
     {
         options.ApiName = "all_apis";
-        options.Authority = "https://localhost:5109";
+        options.Authority = "https://localhost:7162";
         options.RequireHttpsMetadata = false;
     });
 

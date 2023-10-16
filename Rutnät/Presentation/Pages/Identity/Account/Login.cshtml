@@ -1,0 +1,100 @@
+﻿@page "/Identity/Account/Login"
+@model LoginModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            background-color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        .form-container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: white;
+        }
+
+        .form-title {
+            color: orange;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            width: 300px;
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+
+            .form-group label {
+                color: black;
+                margin-bottom: 5px;
+            }
+
+            .form-group input.form-control {
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                font-size: 16px;
+            }
+
+        .text-danger {
+            color: red;
+            font-size: 12px;
+            margin-top: 3px;
+        }
+
+        .btn-primary {
+            padding: 10px 20px;
+            background-color: orange;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: block;
+            margin: auto;
+        }
+
+            .btn-primary:hover {
+                background-color: black;
+            }
+    </style>
+</head>
+
+<body>
+    <div class="form-container">
+        <h1 class="form-title">Welcome</h1>
+        <form method="post">
+            @*            @Html.AntiForgeryToken()*@
+            <input type="hidden" asp-for="ReturnUrl" />
+
+            <div class="form-group">
+                <label asp-for="Input.Username"></label>
+                <input asp-for="Input.Username" class="form-control" />
+                <span asp-validation-for="Input.Username" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Password"></label>
+                <input asp-for="Input.Password" class="form-control" type="password" />
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary" asp-page-handler="Submit">Login</button>
+        </form>
+    </div>
+</body>
+
+</html>
