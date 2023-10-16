@@ -7,12 +7,14 @@ import { SquareNetList } from '../SquareNetList'
 import { SaveSquareNetMenu } from '../SaveSquareNetMenu'
 import { FetchStatus, HttpMethod } from '../../enums'
 import { apiFetch } from '../../integration'
+import { CreateSquareNetModal } from '../CreateSquareNetModal/CreateSquareNetModal'
 
 type Props = {}
 
 export const Home: FC<Props> = () => {
   const [uploadStatus, setUploadStatus] = useState<FetchStatus>(FetchStatus.Idle);
   const [userSquareNets, setUserSquareNets] = useState<any[]>([]);
+  const [modalOpen, setModalopen] = useState<boolean>(false);
 
   useEffect(() => {
     setUploadStatus(FetchStatus.Loading);
@@ -44,11 +46,13 @@ export const Home: FC<Props> = () => {
           flexDirection: 'column',
           height: '100%'
           }}>
-            <Button text="Create New" style={{margin: '30px 0px', alignSelf: 'flex-end'}} onClick={handleCreateNewSquareNet}/>
+            <Button text="Create New" style={{margin: '30px 0px', alignSelf: 'flex-end'}} onClick={() => setModalopen(true)}/>
             <SquareNetContainer />
             <SaveSquareNetMenu />
-            <SquareNetList squareNets={[1,1,1,1,1,1,1,1,1,1]} />
+            <SquareNetList squareNets={userSquareNets} />
         </PageContentContainer>
+
+        <CreateSquareNetModal visible={modalOpen} onCancel={() => setModalopen(false)} onFinish={() => ''}/>
     </PageContainer>
   )
 }

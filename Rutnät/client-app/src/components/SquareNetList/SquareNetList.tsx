@@ -15,7 +15,7 @@ export const SquareNetList:FC<Props> = ({
         height: '30%',
         overflow: 'auto',
     }}>
-        <Divider orientation="center" style={{borderTopColor: 'black'}}>Sparade Rutnät</Divider>
+        <Divider orientation="center" style={{borderTopColor: 'black'}}>Saved Square Nets</Divider>
         {
             squareNets.map((squareNet, idx) => {
                 return (

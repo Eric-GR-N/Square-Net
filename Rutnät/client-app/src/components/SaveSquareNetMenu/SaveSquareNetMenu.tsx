@@ -1,42 +1,62 @@
-import React, { FC } from 'react'
-import { SquareNetListItem } from '../SquareNetListItem';
+import React, { FC } from 'react';
 import { Button } from '../layout/Button';
-import { Divider } from 'antd';
+import { Form, Input } from 'antd';
 
 type Props = {
+    buttonText?: string;
+    formName?: string;
 }
 
-export const SaveSquareNetMenu:FC<Props> = ({}) => {
-  return (
-    <div style={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: '100%',
-        minHeight: '100px',
-        margin: '30px 0px',
-    }}>
-        <form style={{display: 'flex', justifyContent: 'center', width: '100%', flexWrap: 'nowrap'}}>
-            <input 
-                type="text" 
-                placeholder="Name" 
+export const SaveSquareNetMenu: FC<Props> = ({
+    buttonText = 'Save',
+    formName = 'saveSquareNet',
+}) => {
+
+    const onSubmit = (formData: any) => {
+        console.log(formData);
+    }
+
+    return (
+        <div style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            margin: '30px 0px',
+            width: '100%',
+            height: '100px',
+        }}>
+            <Form 
+                name={formName}
+                autoComplete="off"
+                onFinish={onSubmit}
+                layout='horizontal'
                 style={{
-                    width: '80%',
-                    height: '35px',
-                    boxSizing: 'border-box',
-                    border: '2px solid grey',
-                    borderRadius: '5px',
-                    padding: '10px',
-                    flexShrink: 1,
-                    marginRight: '10px'
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    width: '90%',
                 }}
-            />
-            <Button type="submit" text="Save" style={{
-                    flexShrink: 1,
-                    minWidth: '50px'
-                }} />
-        </form>
-    </div>
-  )
+            >
+                <Form.Item 
+                    name="squareNetName" 
+                    style={{
+                        flex: 1, 
+                        marginRight: '10px', // spacing between input and button
+                        marginBottom: 0, // remove default margin-bottom
+                    }}
+                >
+                    <Input style={{ width: '100%' }}/>
+                </Form.Item>
+                <Button 
+                    type="submit" 
+                    text={buttonText} 
+                    style={{
+                        flexShrink: 1,
+                        minWidth: '50px',
+                        alignSelf: 'center', // ensure it's aligned to the center vertically
+                    }} 
+                />
+            </Form>
+        </div>
+    )
 }
