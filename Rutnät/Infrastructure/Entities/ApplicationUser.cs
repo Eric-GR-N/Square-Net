@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Infrastructure.Entities;
+using Microsoft.AspNetCore.Identity;
 
 public class ApplicationUser : IdentityUser
 {
+
 }
 
