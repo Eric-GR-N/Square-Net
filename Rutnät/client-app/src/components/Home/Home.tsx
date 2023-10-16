@@ -32,17 +32,23 @@ export const Home: FC<Props> = () => {
     });
   }, []);
 
+  console.log(selectedSquareNet)
+
   const handleSquareNetSubmit = (formdata: SquareNetFormData, type: SquareNetFormType) => {
     setModalopen(false);
     setUploadStatus(FetchStatus.Loading);
     const isCreateType = type === SquareNetFormType.Create;
     const endpoint = `https://localhost:7162/api/SquareNet`;
-    const body = isCreateType ? formdata.name : {};
+    const body = isCreateType ? formdata.name : {...selectedSquareNet, name: formdata.name};
     const method = isCreateType ? HttpMethod.POST : HttpMethod.PUT;
   
     apiFetch<SquareNet>(endpoint, body, method, true, 'application/json', true)
       .then((result) => {
-        isCreateType && setUserSquareNets([...userSquareNets, result])
+        isCreateType
+        ? setUserSquareNets([...userSquareNets, result])
+        : setUserSquareNets(prev => prev.map(squareNet => 
+          squareNet.id === result.id ? result : squareNet
+        ));
         setUploadStatus(FetchStatus.Success)
       })
       .catch((err) => {
@@ -59,9 +65,9 @@ export const Home: FC<Props> = () => {
           height: '100%'
           }}>
             <Button text="Create New" style={{margin: '30px 0px', alignSelf: 'flex-end'}} onClick={() => setModalopen(true)}/>
-            <SquareNetContainer />
+            <SquareNetContainer squares={selectedSquareNet?.squares}/>
             <SaveSquareNetMenu onFinish={formData => handleSquareNetSubmit(formData, SquareNetFormType.Edit)}/>
-            <SquareNetList squareNets={userSquareNets} />
+            <SquareNetList squareNets={userSquareNets} setSelectedSquareNet={squareNet => setSelectedSquareNet(squareNet)}/>
         </PageContentContainer>
         <CreateSquareNetModal visible={modalOpen} onCancel={() => setModalopen(false)} onFinish={formData => handleSquareNetSubmit(formData, SquareNetFormType.Create)}/>
     </PageContainer>

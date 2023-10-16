@@ -1,8 +1,8 @@
 import { FC } from "react";
-import "./Square.css";
+import "./SquareComponent.css";
 
 type Props = {};
 
-export const Square: FC<Props> = () => {
+export const SquareComponent: FC<Props> = () => {
     return <div className="square"></div>;
 };

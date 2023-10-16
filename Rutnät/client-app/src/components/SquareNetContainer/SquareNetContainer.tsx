@@ -1,14 +1,19 @@
 import React, { FC } from 'react'
 import './SquareNetContainer.css'
-import { Square } from '../Square/Square';
+import { SquareComponent } from '../Square/SquareComponent';
+import { Square } from '../../interfaces';
 
-type Props = {}
+type Props = {
+    squares?: Square[];
+}
 
-export const SquareNetContainer: FC<Props> = () => {
+export const SquareNetContainer: FC<Props> = ({
+    squares = [],
+}) => {
     return (
         <div className="squareNetContainer">
-            {Array.from({ length: 25 }).map((_, idx) => (
-                <Square key={idx} />
+            {squares.length > 0 && squares.map((_, idx) => (
+                <SquareComponent key={idx} />
             ))}
         </div>
     );

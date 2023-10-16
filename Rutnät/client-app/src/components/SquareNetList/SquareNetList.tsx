@@ -1,13 +1,16 @@
 import React, { FC } from 'react'
 import { SquareNetListItem } from '../SquareNetListItem';
 import { Divider } from 'antd';
+import { SquareNet } from '../../interfaces/Squares';
 
 type Props = {
-    squareNets: any[];
+    squareNets: SquareNet[];
+    setSelectedSquareNet: (squareNet: SquareNet) => void;
 }
 
 export const SquareNetList:FC<Props> = ({
     squareNets = [],
+    setSelectedSquareNet = () => {},
 }) => {
   return (
     <div style={{
@@ -19,7 +22,7 @@ export const SquareNetList:FC<Props> = ({
         {
             squareNets.map((squareNet, idx) => {
                 return (
-                    <SquareNetListItem key={idx} text={squareNet?.name}/>
+                    <SquareNetListItem key={idx} text={squareNet?.name} onClick={() => setSelectedSquareNet(squareNet)}/>
             )})
         }
     </div>
