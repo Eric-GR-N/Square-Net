@@ -18,7 +18,7 @@ namespace Presentation.Controllers
             _squareNetRepository = squareNetRepository;
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:guid}")]
         public async Task<ActionResult<SquareNet>> GetSquareNetAsync(Guid id)
         {
             var squareNet = await _squareNetRepository.GetSquareNetByIdAsync(id);
@@ -29,6 +29,28 @@ namespace Presentation.Controllers
             }
 
             return Ok(squareNet);
+        }
+
+        [HttpGet("getAllSquareNetsForUser")]
+        public async Task<ActionResult<List<SquareNet>>> GetAllSquareNetForUserAsync()
+        {
+            var userId = User.Claims.FirstOrDefault(c => c.Type == "sub")?.Value;
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return BadRequest("No user id");
+            }
+
+            if (Guid.TryParse(userId, out var id))
+            {
+                var squareNets = await _squareNetRepository.GetSquareNetsByUserIdAsync(id);
+
+                return Ok(squareNets);
+            }
+            else
+            {
+                return BadRequest("Invalid user id format");
+            }
         }
 
         [HttpPost]
@@ -50,7 +72,7 @@ namespace Presentation.Controllers
 
                     var squareNet = new SquareNet
                     {
-                        ApplicationUserId = Guid.Parse(userId),
+                        ApplicationUserId = id,
                         Squares = squares,
                     };
 
