@@ -101,5 +101,32 @@ namespace Presentation.Controllers
                 return BadRequest("Something went wrong");
             }
         }
+
+        [HttpPut]
+        public async Task<ActionResult<SquareNet>> UpdateSquareNetAsync([FromBody] SquareNet squareNet)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                var existingSquareNet = await _squareNetRepository.GetSquareNetByNameAsync(squareNet.Name);
+
+                if (existingSquareNet != null)
+                {
+                    return BadRequest("A square net with that name already exists");
+                }
+
+                await _squareNetRepository.UpdateSquareNetAsync(squareNet);
+
+                return Ok(squareNet);
+            }
+            catch (Exception)
+            {
+                return BadRequest("Something went wrong");
+            }
+        }
     }
 }
