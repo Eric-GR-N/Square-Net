@@ -14,6 +14,7 @@ export const SquareNetListItem: FC<Props> = ({}) => {
             alignItems: 'center',
             height: '20%',
             padding: '0px 10px',
+            borderBottom: '1px solid grey'
         }}>
             <Text style={{ textAlign: 'start' }}>Mitt Rutnät</Text>
             <div style={{ display: 'flex' }}>
