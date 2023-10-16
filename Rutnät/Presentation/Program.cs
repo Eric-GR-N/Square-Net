@@ -2,6 +2,7 @@ using IdentityServer4.AspNetIdentity;
 using IdentityServer4.Configuration;
 using IdentityServer4.Services;
 using Infrastructure.Identity;
+using Infrastructure.Repositories;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -62,6 +63,8 @@ builder.Services.AddEndpointsApiExplorer();
 //Custom services
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IProfileService, ProfileService>();
+builder.Services.AddTransient<ISquareRepository, SquareRepository>();
+builder.Services.AddTransient<ISquareNetRepository, SquareNetRepository>();
 
 var app = builder.Build();
 
