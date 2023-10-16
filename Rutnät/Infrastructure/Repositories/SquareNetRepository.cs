@@ -23,7 +23,7 @@ namespace Infrastructure.Repositories
 
         public async Task<List<SquareNet>> GetSquareNetsByUserIdAsync(Guid userId)
         {
-            return await _context.SquareNets.Where(_ => _.ApplicationUserId == userId).ToListAsync();
+            return await _context.SquareNets.Where(_ => _.ApplicationUserId == userId).Include(_ => _.Squares).ToListAsync();
         }
 
         public async Task UpdateSquareNetAsync(SquareNet updatedSquare)

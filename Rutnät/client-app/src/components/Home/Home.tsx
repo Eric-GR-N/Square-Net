@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { PageContainer } from '../layout/PageContainer'
 import { SquareNetContainer } from '../SquareNetContainer'
 import { Button } from '../layout/Button/Button'
@@ -12,6 +12,18 @@ type Props = {}
 
 export const Home: FC<Props> = () => {
   const [uploadStatus, setUploadStatus] = useState<FetchStatus>(FetchStatus.Idle);
+
+  useEffect(() => {
+    setUploadStatus(FetchStatus.Loading);
+    apiFetch(`https://localhost:7162/api/SquareNet/getAllSquareNetsForUser`, undefined, HttpMethod.GET, false, 'application/json', true)
+    .then((data) => {
+        console.log(data);
+        setUploadStatus(FetchStatus.Success);
+    }).catch((err) => {
+        console.log(err)
+        setUploadStatus(FetchStatus.Error);
+    });
+  }, []);
 
   const handleCreateNewSquareNet = () => {
     setUploadStatus(FetchStatus.Loading);
