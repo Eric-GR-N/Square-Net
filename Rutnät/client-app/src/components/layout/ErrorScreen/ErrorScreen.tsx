@@ -1,6 +1,5 @@
 import React, { FC } from 'react'
-import {PiSmileySad} from 'react-icons/pi'
-import { colorPalette } from '../../../styling/colorPalette'
+import { colorPalette } from '../../../styles/colorPalette'
 
 type Props = {}
 
@@ -22,6 +21,5 @@ export const ErrorScreen: FC<Props> = ({}) => {
             padding: '10px',
             borderRadius: '5px',
         }}>Nånting gick fel</h1>
-        <PiSmileySad style={{color: 'white'}} size={100}/>
         </div>
   )}

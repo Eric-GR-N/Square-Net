@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { colorPalette } from '../../styles/colorPalette';
 import { PageContainer } from '../layout/PageContainer';
-import { FetchStatus } from '../../enums';
+import { FetchStatus, HttpMethod } from '../../enums';
+import { apiFetch } from '../../integration/apifetch';
+import LoadingScreen from '../layout/LoadingScreen/LoadingScreen';
+import { ErrorScreen } from '../layout/ErrorScreen';
+import { SuccessScreen } from '../layout/SuccessScreen';
 
 export const buttonStyle: React.CSSProperties = {
   display: 'inline-block',
@@ -54,8 +58,8 @@ const inputTextStyle: React.CSSProperties = {
 
 const handleRegister = () => {
     setUploadStatus(FetchStatus.Loading);
-    apiFetch(`https://localhost:7279/api/Account/register`, {
-        email: username,
+    apiFetch(`https://localhost:7162/api/Account/Register`, {
+        username: username,
         password: password,
         confirmPassword: password
     }, HttpMethod.POST, true, 'application/json', false).then(() => {
@@ -86,7 +90,7 @@ switch (uploadStatus) {
         width: '60%'
         }}>
     <form>
-        <input style={inputStyle} type="text" placeholder="Epost" value={username} onChange={(e) => setUsername(e.target.value)}/>
+        <input style={inputStyle} type="text" placeholder="Användarnamn" value={username} onChange={(e) => setUsername(e.target.value)}/>
         <input style={inputStyle} type="password" placeholder="Lösenord" value={password} onChange={(e) => setPassword(e.target.value)}/>
         <input style={inputStyle} type="password" placeholder="Bekräfta Lösenord" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}/>
     </form>
