@@ -1,0 +1,18 @@
+version: '3.8'
+services:
+  sql_server:
+    image: mcr.microsoft.com/mssql/server
+    environment:
+      ACCEPT_EULA: Y
+      SA_PASSWORD: ${DB_PASSWORD}
+      MSSQL_PID: Express # or Developer depending on the edition you need
+      MSSQL_DB: SquareNetDB
+    ports:
+      - "1433:1433"
+    command:
+      - /bin/bash
+      - -c 
+      - |
+        /opt/mssql/bin/sqlservr & sleep 30
+        /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P ${DB_PASSWORD} -Q "CREATE DATABASE SquareNetDB"
+        tail -f /dev/null
