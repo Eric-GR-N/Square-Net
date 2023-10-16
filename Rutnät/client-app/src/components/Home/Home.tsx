@@ -15,20 +15,20 @@ import { SquareNet } from '../../interfaces/Squares'
 type Props = {}
 
 export const Home: FC<Props> = () => {
-  const [uploadStatus, setUploadStatus] = useState<FetchStatus>(FetchStatus.Idle);
+  const [pageStatus, setPageStatus] = useState<FetchStatus>(FetchStatus.Idle);
   const [userSquareNets, setUserSquareNets] = useState<SquareNet[]>([]);
   const [selectedSquareNet, setSelectedSquareNet] = useState<SquareNet>();
   const [modalOpen, setModalopen] = useState<boolean>(false);
 
   useEffect(() => {
-    setUploadStatus(FetchStatus.Loading);
+    setPageStatus(FetchStatus.Loading);
     apiFetch<SquareNet []>(`https://localhost:7162/api/SquareNet/getAllSquareNetsForUser`, undefined, HttpMethod.GET, false, 'application/json', true)
     .then((data) => {
         setUserSquareNets(data);
-        setUploadStatus(FetchStatus.Success);
+        setPageStatus(FetchStatus.Success);
     }).catch((err) => {
         console.log(err)
-        setUploadStatus(FetchStatus.Error);
+        setPageStatus(FetchStatus.Error);
     });
   }, []);
 
@@ -36,7 +36,7 @@ export const Home: FC<Props> = () => {
 
   const handleSquareNetSubmit = (formdata: SquareNetFormData, type: SquareNetFormType) => {
     setModalopen(false);
-    setUploadStatus(FetchStatus.Loading);
+    setPageStatus(FetchStatus.Loading);
     const isCreateType = type === SquareNetFormType.Create;
     const endpoint = `https://localhost:7162/api/SquareNet`;
     const body = isCreateType ? formdata.name : {...selectedSquareNet, name: formdata.name};
@@ -49,11 +49,11 @@ export const Home: FC<Props> = () => {
         : setUserSquareNets(prev => prev.map(squareNet => 
           squareNet.id === result.id ? result : squareNet
         ));
-        setUploadStatus(FetchStatus.Success)
+        setPageStatus(FetchStatus.Success)
       })
       .catch((err) => {
         console.log(err);
-        setUploadStatus(FetchStatus.Error);
+        setPageStatus(FetchStatus.Error);
       });
   };
   

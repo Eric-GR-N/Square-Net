@@ -56,9 +56,19 @@ namespace Presentation.Controllers
         [HttpPost]
         public async Task<ActionResult<SquareNet>> AddNewSquareNetAsync([FromBody] string name)
         {
+            if (string.IsNullOrEmpty(name))
+            {
+                return BadRequest("No name provided");
+            }
 
             try
             {
+                var existingSquareNet = await _squareNetRepository.GetSquareNetByNameAsync(name);
+
+                if(existingSquareNet != null)
+                {
+                    return BadRequest("A square net with that name already exists");
+                }
                 var userId = User.Claims.FirstOrDefault(c => c.Type == "sub")?.Value;
 
                 if (string.IsNullOrEmpty(userId))
