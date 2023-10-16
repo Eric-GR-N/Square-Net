@@ -10,17 +10,19 @@ import { apiFetch } from '../../integration'
 import { CreateSquareNetModal } from '../CreateSquareNetModal/CreateSquareNetModal'
 import { SquareNetFormType } from '../../enums/forms'
 import { SquareNetFormData } from '../../interfaces/forms'
+import { SquareNet } from '../../interfaces/Squares'
 
 type Props = {}
 
 export const Home: FC<Props> = () => {
   const [uploadStatus, setUploadStatus] = useState<FetchStatus>(FetchStatus.Idle);
-  const [userSquareNets, setUserSquareNets] = useState<any[]>([]);
+  const [userSquareNets, setUserSquareNets] = useState<SquareNet[]>([]);
+  const [selectedSquareNet, setSelectedSquareNet] = useState<SquareNet>();
   const [modalOpen, setModalopen] = useState<boolean>(false);
 
   useEffect(() => {
     setUploadStatus(FetchStatus.Loading);
-    apiFetch<any []>(`https://localhost:7162/api/SquareNet/getAllSquareNetsForUser`, undefined, HttpMethod.GET, false, 'application/json', true)
+    apiFetch<SquareNet []>(`https://localhost:7162/api/SquareNet/getAllSquareNetsForUser`, undefined, HttpMethod.GET, false, 'application/json', true)
     .then((data) => {
         setUserSquareNets(data);
         setUploadStatus(FetchStatus.Success);
@@ -31,15 +33,18 @@ export const Home: FC<Props> = () => {
   }, []);
 
   const handleSquareNetSubmit = (formdata: SquareNetFormData, type: SquareNetFormType) => {
+    setModalopen(false);
     setUploadStatus(FetchStatus.Loading);
-
     const isCreateType = type === SquareNetFormType.Create;
     const endpoint = `https://localhost:7162/api/SquareNet`;
     const body = isCreateType ? formdata.name : {};
     const method = isCreateType ? HttpMethod.POST : HttpMethod.PUT;
   
-    apiFetch(endpoint, body, method, true, 'application/json', true)
-      .then(() => setUploadStatus(FetchStatus.Success))
+    apiFetch<SquareNet>(endpoint, body, method, true, 'application/json', true)
+      .then((result) => {
+        isCreateType && setUserSquareNets([...userSquareNets, result])
+        setUploadStatus(FetchStatus.Success)
+      })
       .catch((err) => {
         console.log(err);
         setUploadStatus(FetchStatus.Error);

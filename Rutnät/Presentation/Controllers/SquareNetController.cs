@@ -54,7 +54,7 @@ namespace Presentation.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<SquareNet>> AddNewSquareNetAsync()
+        public async Task<ActionResult<SquareNet>> AddNewSquareNetAsync([FromBody] string name)
         {
 
             try
@@ -72,13 +72,14 @@ namespace Presentation.Controllers
 
                     var squareNet = new SquareNet
                     {
+                        Name = name,
                         ApplicationUserId = id,
                         Squares = squares,
                     };
 
                     await _squareNetRepository.CreateSquareNetAsync(squareNet);
 
-                    return CreatedAtAction(nameof(GetSquareNetAsync), new { id = squareNet.Id }, squareNet);
+                    return Ok(squareNet);
                 }
                 else
                 {
