@@ -1,4 +1,8 @@
 using IdentityServer4.Configuration;
+<<<<<<< Updated upstream
+=======
+using Infrastructure.Identity;
+>>>>>>> Stashed changes
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
