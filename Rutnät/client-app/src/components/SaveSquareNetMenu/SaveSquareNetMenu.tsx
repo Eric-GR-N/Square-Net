@@ -1,19 +1,24 @@
 import React, { FC } from 'react';
 import { Button } from '../layout/Button';
 import { Form, Input } from 'antd';
+import { SquareNetFormData } from '../../interfaces/forms';
 
 type Props = {
     buttonText?: string;
     formName?: string;
+    onFinish?: (formData: SquareNetFormData) => void;
 }
 
 export const SaveSquareNetMenu: FC<Props> = ({
     buttonText = 'Save',
-    formName = 'saveSquareNet',
+    formName = 'editSquareNet',
+    onFinish = () => {},
 }) => {
 
-    const onSubmit = (formData: any) => {
-        console.log(formData);
+    const [form] = Form.useForm<SquareNetFormData>();
+
+    const onSubmit = (formData: SquareNetFormData) => {
+        onFinish(formData);
     }
 
     return (
@@ -28,6 +33,7 @@ export const SaveSquareNetMenu: FC<Props> = ({
             <Form 
                 name={formName}
                 autoComplete="off"
+                form={form}
                 onFinish={onSubmit}
                 layout='horizontal'
                 style={{
@@ -38,7 +44,13 @@ export const SaveSquareNetMenu: FC<Props> = ({
                 }}
             >
                 <Form.Item 
-                    name="squareNetName" 
+                    name="id" 
+                    hidden={true}
+                >
+                    <Input style={{ width: '100%' }}/>
+                </Form.Item>
+                <Form.Item 
+                    name="name" 
                     style={{
                         flex: 1, 
                         marginRight: '10px', // spacing between input and button

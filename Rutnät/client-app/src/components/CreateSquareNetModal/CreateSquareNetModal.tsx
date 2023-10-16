@@ -1,11 +1,12 @@
 import { Button, Divider, Modal } from 'antd'
 import React, { FC } from 'react'
 import { SaveSquareNetMenu } from '../SaveSquareNetMenu';
+import { SquareNetFormData } from '../../interfaces/forms';
 
 type Props = {
     visible: boolean;
     onCancel: () => void;
-    onFinish: () => void;
+    onFinish: (formData: SquareNetFormData) => void;
 }
 
 export const CreateSquareNetModal:FC<Props> = ({
@@ -23,7 +24,7 @@ export const CreateSquareNetModal:FC<Props> = ({
     footer={null}
     >
         <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>
-            <SaveSquareNetMenu buttonText="Create" formName='createSquareNet'/>
+            <SaveSquareNetMenu buttonText="Create" formName='createSquareNet' onFinish={formData => onFinish(formData)}/>
             <Divider />
             <Button type="primary" onClick={onCancel}>Cancel</Button> 
         </div>

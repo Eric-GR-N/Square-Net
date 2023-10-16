@@ -8,6 +8,8 @@ import { SaveSquareNetMenu } from '../SaveSquareNetMenu'
 import { FetchStatus, HttpMethod } from '../../enums'
 import { apiFetch } from '../../integration'
 import { CreateSquareNetModal } from '../CreateSquareNetModal/CreateSquareNetModal'
+import { SquareNetFormType } from '../../enums/forms'
+import { SquareNetFormData } from '../../interfaces/forms'
 
 type Props = {}
 
@@ -28,17 +30,22 @@ export const Home: FC<Props> = () => {
     });
   }, []);
 
-  const handleCreateNewSquareNet = () => {
+  const handleSquareNetSubmit = (formdata: SquareNetFormData, type: SquareNetFormType) => {
     setUploadStatus(FetchStatus.Loading);
-    apiFetch(`https://localhost:7162/api/SquareNet`, undefined, HttpMethod.POST, true, 'application/json', true)
-    .then(() => {
-        setUploadStatus(FetchStatus.Success);
-    }).catch((err) => {
-        console.log(err)
-        setUploadStatus(FetchStatus.Error);
-    });
-}
 
+    const isCreateType = type === SquareNetFormType.Create;
+    const endpoint = `https://localhost:7162/api/SquareNet`;
+    const body = isCreateType ? formdata.name : {};
+    const method = isCreateType ? HttpMethod.POST : HttpMethod.PUT;
+  
+    apiFetch(endpoint, body, method, true, 'application/json', true)
+      .then(() => setUploadStatus(FetchStatus.Success))
+      .catch((err) => {
+        console.log(err);
+        setUploadStatus(FetchStatus.Error);
+      });
+  };
+  
   return (
     <PageContainer>
         <PageContentContainer style={{
@@ -48,11 +55,10 @@ export const Home: FC<Props> = () => {
           }}>
             <Button text="Create New" style={{margin: '30px 0px', alignSelf: 'flex-end'}} onClick={() => setModalopen(true)}/>
             <SquareNetContainer />
-            <SaveSquareNetMenu />
+            <SaveSquareNetMenu onFinish={formData => handleSquareNetSubmit(formData, SquareNetFormType.Edit)}/>
             <SquareNetList squareNets={userSquareNets} />
         </PageContentContainer>
-
-        <CreateSquareNetModal visible={modalOpen} onCancel={() => setModalopen(false)} onFinish={() => ''}/>
+        <CreateSquareNetModal visible={modalOpen} onCancel={() => setModalopen(false)} onFinish={formData => handleSquareNetSubmit(formData, SquareNetFormType.Create)}/>
     </PageContainer>
   )
 }
