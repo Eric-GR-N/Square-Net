@@ -3,4 +3,5 @@ export const colorPalette = {
     red: 'red',
     green: 'green',
     orange: 'orange',
+    white: 'white',
 };
