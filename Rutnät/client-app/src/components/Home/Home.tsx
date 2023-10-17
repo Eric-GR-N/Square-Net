@@ -12,6 +12,7 @@ import { SquareNetFormData } from '../../interfaces/forms'
 import { SquareNet } from '../../interfaces/Squares'
 import userManager from '../../auth/authService'
 import { SquareNetForm } from '../SaveSquareNetMenu'
+import { message } from 'antd'
 
 type Props = {}
 
@@ -59,10 +60,12 @@ export const Home: FC<Props> = () => {
         if(isCreateType){
           setUserSquareNets([...userSquareNets, result])
           setSelectedSquareNet(result);
+          message.success('SquareNet created successfully');
         } else {
           setUserSquareNets(prev => prev.map(squareNet => 
             squareNet.id === result.id ? result : squareNet
           ));
+          message.success('SquareNet updated successfully');
         }
         setPageStatus(FetchStatus.Success)
       })
@@ -76,6 +79,7 @@ export const Home: FC<Props> = () => {
     apiFetch(`https://localhost:7162/api/SquareNet/${id}`, undefined, HttpMethod.DELETE, false, 'application/json', true)
     .then(() => {
       setUserSquareNets(prev => prev.filter(squareNet => squareNet.id !== id));
+      message.success('SquareNet deleted successfully');
       setSelectedSquareNet(undefined);
       setPageStatus(FetchStatus.Success)
     })
