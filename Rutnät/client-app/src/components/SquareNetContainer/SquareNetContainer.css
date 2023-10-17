@@ -1,0 +1,13 @@
+.squareNetContainer {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 20vw;
+    height: 20vw;
+    min-width: 330px;
+    min-height: 330px;
+    border: 3px solid black;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
