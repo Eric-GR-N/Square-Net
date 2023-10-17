@@ -54,12 +54,11 @@ export const Home: FC<Props> = () => {
     setPageStatus(FetchStatus.Loading);
     const isCreateType = type === SquareNetFormType.Create;
     const endpoint = `https://localhost:7162/api/SquareNet`;
-    const body = isCreateType ? formdata.name : {...selectedSquareNet, name: formdata.name};
+    const body = isCreateType ? formdata.name : {...selectedSquareNet, name: formdata.name ?? selectedSquareNet?.name};
     const method = isCreateType ? HttpMethod.POST : HttpMethod.PUT;
   
     apiFetch<SquareNet>(endpoint, body, method, true, 'application/json', true)
       .then((result) => {
-
         if(isCreateType){
           setUserSquareNets([...userSquareNets, result])
           setSelectedSquareNet(result);
@@ -76,7 +75,7 @@ export const Home: FC<Props> = () => {
       .catch(() => {
         message.error('Could not save SquareNet');
         setPageStatus(FetchStatus.Error);
-      });
+      }).finally(() => setEditMode(false));
   };
 
   const handleDelete = (id: string) => {

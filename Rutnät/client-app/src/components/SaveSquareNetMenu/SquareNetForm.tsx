@@ -19,10 +19,6 @@ export const SquareNetForm: FC<Props> = ({
 
     const [form] = Form.useForm<SquareNetFormData>();
 
-    useEffect(() => {
-        selectedSquareNet && form.setFieldsValue({id: selectedSquareNet.id, name: selectedSquareNet.name});
-    }, [selectedSquareNet])
-
     const onSubmit = (formData: SquareNetFormData) => {
         onFinish(formData);
     }
@@ -50,12 +46,6 @@ export const SquareNetForm: FC<Props> = ({
                 }}
             >
                 <Form.Item 
-                    name="id" 
-                    hidden={true}
-                >
-                    <Input style={{ width: '100%' }}/>
-                </Form.Item>
-                <Form.Item 
                     name="name" 
                     style={{
                         flex: 1, 
@@ -63,7 +53,7 @@ export const SquareNetForm: FC<Props> = ({
                         marginBottom: 0, // remove default margin-bottom
                     }}
                 >
-                    <Input style={{ width: '100%' }}/>
+                    <Input style={{ width: '100%' }} placeholder='Change name of your square net?'/>
                 </Form.Item>
                 <Button 
                     type="submit" 
