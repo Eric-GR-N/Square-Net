@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
+builder.Services.AddAutoMapper(typeof(Program));
 
 var configuration = builder.Configuration;
 

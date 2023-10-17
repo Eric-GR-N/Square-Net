@@ -1,9 +1,14 @@
-﻿using IdentityServer4.Extensions;
+﻿using AutoMapper;
+using Domain.Dtos;
+using IdentityServer4.Extensions;
 using Infrastructure.Entities;
 using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Presentation.RequestModels;
+using Presentation.ResponseModels;
+using System.Xml.Linq;
 
 namespace Presentation.Controllers
 {
@@ -13,9 +18,11 @@ namespace Presentation.Controllers
     public class SquareNetController : ControllerBase
     {
         private readonly ISquareNetRepository _squareNetRepository;
-        public SquareNetController(ISquareNetRepository squareNetRepository)
+        private readonly IMapper _mapper;
+        public SquareNetController(ISquareNetRepository squareNetRepository, IMapper mapper)
         {
             _squareNetRepository = squareNetRepository;
+            _mapper = mapper;
         }
 
         [HttpGet("{id:guid}")]
@@ -31,21 +38,15 @@ namespace Presentation.Controllers
             return Ok(squareNet);
         }
 
-        [HttpGet("getAllSquareNetsForUser")]
-        public async Task<ActionResult<List<SquareNet>>> GetAllSquareNetForUserAsync()
+        [HttpGet("squareNets/{userId}")]
+        public async Task<ActionResult<List<SquareNetResponseModel>>> GetAllSquareNetsForUserAsync(string userId)
         {
-            var userId = User.Claims.FirstOrDefault(c => c.Type == "sub")?.Value;
-
-            if (string.IsNullOrEmpty(userId))
-            {
-                return BadRequest("No user id");
-            }
-
             if (Guid.TryParse(userId, out var id))
             {
                 var squareNets = await _squareNetRepository.GetSquareNetsByUserIdAsync(id);
+                var response = squareNets.Select(_ => _mapper.Map<SquareNetResponseModel>(_)).ToList();
 
-                return Ok(squareNets);
+                return Ok(response);
             }
             else
             {
@@ -54,7 +55,7 @@ namespace Presentation.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<SquareNet>> AddNewSquareNetAsync([FromBody] string name)
+        public async Task<ActionResult<SquareNetResponseModel>> AddNewSquareNetAsync([FromBody] string name)
         {
             if (string.IsNullOrEmpty(name))
             {
@@ -69,27 +70,25 @@ namespace Presentation.Controllers
                 {
                     return BadRequest("A square net with that name already exists");
                 }
-                var userId = User.Claims.FirstOrDefault(c => c.Type == "sub")?.Value;
 
-                if (string.IsNullOrEmpty(userId))
-                {
-                    return BadRequest("No user id");
-                }
+                var userId = User.Claims.FirstOrDefault(c => c.Type == "sub")?.Value;
 
                 if (Guid.TryParse(userId, out var id))
                 {
-                    var squares = Enumerable.Range(1, 25).Select(_ => new Square()).ToList();
+                    var squareDtos = Enumerable.Range(1, 25).Select(_ => new SquareDto()).ToList();
 
-                    var squareNet = new SquareNet
+                    var squareNetDto = new SquareNetDto
                     {
                         Name = name,
                         ApplicationUserId = id,
-                        Squares = squares,
+                        Squares = squareDtos,
                     };
 
-                    await _squareNetRepository.CreateSquareNetAsync(squareNet);
+                    await _squareNetRepository.CreateSquareNetAsync(_mapper.Map<SquareNet>(squareNetDto));
 
-                    return Ok(squareNet);
+                    var response = _mapper.Map<SquareNetResponseModel>(squareNetDto);
+
+                    return Ok(response);
                 }
                 else
                 {
@@ -103,11 +102,11 @@ namespace Presentation.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult<SquareNet>> UpdateSquareNetAsync([FromBody] SquareNet squareNet)
+        public async Task<ActionResult<SquareNetResponseModel>> UpdateSquareNetAsync([FromBody] SquareNetRequestModel squareNet)
         {
-            if (!ModelState.IsValid)
+            if (string.IsNullOrEmpty(squareNet.Name))
             {
-                return BadRequest();
+                return BadRequest("No name provided");
             }
 
             try
@@ -119,9 +118,11 @@ namespace Presentation.Controllers
                     return BadRequest("A square net with that name already exists");
                 }
 
-                await _squareNetRepository.UpdateSquareNetAsync(squareNet);
+                var squareNetEntity = _mapper.Map<SquareNet>(squareNet);
+                await _squareNetRepository.UpdateSquareNetAsync(squareNetEntity);
 
-                return Ok(squareNet);
+                var responseModel = _mapper.Map<SquareNetResponseModel>(squareNetEntity);
+                return Ok(responseModel);
             }
             catch (Exception)
             {

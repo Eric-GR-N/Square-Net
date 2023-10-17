@@ -11,6 +11,7 @@ import { CreateSquareNetModal } from '../CreateSquareNetModal/CreateSquareNetMod
 import { SquareNetFormType } from '../../enums/forms'
 import { SquareNetFormData } from '../../interfaces/forms'
 import { SquareNet } from '../../interfaces/Squares'
+import userManager from '../../auth/authService'
 
 type Props = {}
 
@@ -21,16 +22,29 @@ export const Home: FC<Props> = () => {
   const [modalOpen, setModalopen] = useState<boolean>(false);
 
   useEffect(() => {
-    setPageStatus(FetchStatus.Loading);
-    apiFetch<SquareNet []>(`https://localhost:7162/api/SquareNet/getAllSquareNetsForUser`, undefined, HttpMethod.GET, false, 'application/json', true)
-    .then((data) => {
-        setUserSquareNets(data);
-        setPageStatus(FetchStatus.Success);
-    }).catch((err) => {
-        console.log(err)
-        setPageStatus(FetchStatus.Error);
-    });
-  }, []);
+    const fetchUserAndSquareNets = async () => {
+        setPageStatus(FetchStatus.Loading);
+
+        try {
+            const user = await userManager.getUser();
+
+            // Make sure user and userId exist
+            if (!user || !user.profile.sub) {
+                throw new Error('User not found');
+            }
+
+            const data = await apiFetch<SquareNet[]>(`https://localhost:7162/api/SquareNet/squareNets/${user.profile.sub}`, undefined, HttpMethod.GET, false, 'application/json', true);
+
+            setUserSquareNets(data);
+            setPageStatus(FetchStatus.Success);
+        } catch (err) {
+            console.log(err);
+            setPageStatus(FetchStatus.Error);
+        }
+    };
+
+    fetchUserAndSquareNets();
+}, []);
 
   console.log(selectedSquareNet)
 
