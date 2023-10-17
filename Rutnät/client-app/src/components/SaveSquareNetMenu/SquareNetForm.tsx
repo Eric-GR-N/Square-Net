@@ -6,15 +6,15 @@ import { SquareNetFormData } from '../../interfaces/forms';
 type Props = {
     buttonText?: string;
     formName?: string;
-    selectedSquareNet?: SquareNetFormData;
     onFinish?: (formData: SquareNetFormData) => void;
+    visible: boolean;
 }
 
 export const SquareNetForm: FC<Props> = ({
     buttonText = 'Save',
     formName = 'editSquareNet',
     onFinish = () => {},
-    selectedSquareNet
+    visible,
 }) => {
 
     const [form] = Form.useForm<SquareNetFormData>();
@@ -26,6 +26,7 @@ export const SquareNetForm: FC<Props> = ({
     return (
         <div style={{
             display: 'flex',
+            visibility: visible ? 'visible' : 'hidden',
             justifyContent: 'center',
             alignItems: 'center',
             margin: '30px 0px',

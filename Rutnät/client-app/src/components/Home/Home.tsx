@@ -90,7 +90,7 @@ export const Home: FC<Props> = () => {
     .catch(() => {
       message.error('Could not delete SquareNet');
       setPageStatus(FetchStatus.Error);
-    });
+    }).finally(() => setEditMode(false));
   };
   
   if (pageStatus === FetchStatus.Loading) {
@@ -121,7 +121,7 @@ if (pageStatus === FetchStatus.Success) {
                   })}
                   editable={editMode}
                 />
-                {(userSquareNets.length > 0 && selectedSquareNet && editMode) && <SquareNetForm onFinish={formData => handleSquareNetSubmit(formData, SquareNetFormType.Edit)} selectedSquareNet={selectedSquareNet} />}
+                <SquareNetForm onFinish={formData => handleSquareNetSubmit(formData, SquareNetFormType.Edit)} visible={editMode}/>
                 <SquareNetList
                     squareNets={userSquareNets}
                     setSelectedSquareNet={squareNet => setSelectedSquareNet(squareNet)}

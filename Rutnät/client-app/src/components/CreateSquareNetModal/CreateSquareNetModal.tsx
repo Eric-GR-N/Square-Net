@@ -24,7 +24,7 @@ export const CreateSquareNetModal:FC<Props> = ({
     footer={null}
     >
         <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>
-            <SquareNetForm buttonText="Create" formName='createSquareNet' onFinish={formData => onFinish(formData)}/>
+            <SquareNetForm buttonText="Create" formName='createSquareNet' onFinish={formData => onFinish(formData)} visible={true}/>
             <Divider />
             <Button type="primary" onClick={onCancel}>Cancel</Button> 
         </div>
