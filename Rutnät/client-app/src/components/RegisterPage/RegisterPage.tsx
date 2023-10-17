@@ -43,19 +43,6 @@ const inputStyle: React.CSSProperties = {
     padding: 5,
 };
 
-const inputTextStyle: React.CSSProperties = {
-    display: 'inline-block',
-    padding: '10px 30px',
-    cursor: 'pointer',
-    color: '#fff',
-    fontFamily: 'Dancing Script, cursive',
-    fontSize: 30,
-    maxWidth: 'fit-content',
-    marginTop: 20,
-    letterSpacing: '0.05em', 
-    textShadow: '1px 1px 2px rgba(0, 0, 0, 0.5)',
-};
-
 const handleRegister = () => {
     setUploadStatus(FetchStatus.Loading);
     apiFetch(`https://localhost:7162/api/Account/Register`, {

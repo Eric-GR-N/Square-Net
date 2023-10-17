@@ -10,7 +10,7 @@ import { CreateSquareNetModal } from '../CreateSquareNetModal/CreateSquareNetMod
 import { SquareNetFormType } from '../../enums/forms'
 import { SquareNetFormData } from '../../interfaces/forms'
 import { SquareNet } from '../../interfaces/Squares'
-import userManager from '../../auth/authService'
+import userManager, { logoutUser } from '../../auth/authService'
 import { SquareNetForm } from '../SaveSquareNetMenu'
 import { message } from 'antd'
 import LoadingScreen from '../layout/LoadingScreen/LoadingScreen'
@@ -71,13 +71,14 @@ export const Home: FC<Props> = () => {
         }
         setPageStatus(FetchStatus.Success)
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
+        message.error('Could not save SquareNet');
         setPageStatus(FetchStatus.Error);
       });
   };
 
   const handleDelete = (id: string) => {
+    setPageStatus(FetchStatus.Loading);
     apiFetch(`https://localhost:7162/api/SquareNet/${id}`, undefined, HttpMethod.DELETE, false, 'application/json', true)
     .then(() => {
       setUserSquareNets(prev => prev.filter(squareNet => squareNet.id !== id));
@@ -85,18 +86,14 @@ export const Home: FC<Props> = () => {
       setSelectedSquareNet(undefined);
       setPageStatus(FetchStatus.Success)
     })
-    .catch((err) => {
-      console.log(err);
+    .catch(() => {
+      message.error('Could not delete SquareNet');
       setPageStatus(FetchStatus.Error);
     });
   };
   
   if (pageStatus === FetchStatus.Loading) {
-    return <LoadingScreen />;
-}
-
-if (pageStatus === FetchStatus.Error) {
-    return <ErrorScreen />;
+    return <PageContainer><LoadingScreen /></PageContainer>;
 }
 
 if (pageStatus === FetchStatus.Success) {
@@ -107,11 +104,14 @@ if (pageStatus === FetchStatus.Success) {
                 flexDirection: 'column',
                 height: '100%'
             }}>
-                <Button text="Create New" style={{ margin: '30px 0px', alignSelf: 'flex-end' }} onClick={() => {
+              <div style={{ margin: '30px 0px', alignSelf: 'flex-end' }}>
+              <Button text="Sign out" onClick={logoutUser} />
+                <Button text="Create New" style={{ marginLeft: 10 }} onClick={() => {
                     setSelectedSquareNet(undefined);
                     setModalopen(true);
                 }
                 } />
+              </div>
                 <SquareNetContainer squares={selectedSquareNet?.squares}
                     onSquareClick={updatedSquare => selectedSquareNet?.squares && setSelectedSquareNet({
                         ...selectedSquareNet,
