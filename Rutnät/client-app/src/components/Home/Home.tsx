@@ -56,11 +56,15 @@ export const Home: FC<Props> = () => {
   
     apiFetch<SquareNet>(endpoint, body, method, true, 'application/json', true)
       .then((result) => {
-        isCreateType
-        ? setUserSquareNets([...userSquareNets, result])
-        : setUserSquareNets(prev => prev.map(squareNet => 
-          squareNet.id === result.id ? result : squareNet
-        ));
+
+        if(isCreateType){
+          setUserSquareNets([...userSquareNets, result])
+          setSelectedSquareNet(result);
+        } else {
+          setUserSquareNets(prev => prev.map(squareNet => 
+            squareNet.id === result.id ? result : squareNet
+          ));
+        }
         setPageStatus(FetchStatus.Success)
       })
       .catch((err) => {
@@ -76,7 +80,11 @@ export const Home: FC<Props> = () => {
           flexDirection: 'column',
           height: '100%'
           }}>
-            <Button text="Create New" style={{margin: '30px 0px', alignSelf: 'flex-end'}} onClick={() => setModalopen(true)}/>
+            <Button text="Create New" style={{margin: '30px 0px', alignSelf: 'flex-end'}} onClick={() => {
+              setSelectedSquareNet(undefined);
+              setModalopen(true);
+            }
+              }/>
             <SquareNetContainer squares={selectedSquareNet?.squares}/>
             <SquareNetForm onFinish={formData => handleSquareNetSubmit(formData, SquareNetFormType.Edit)} selectedSquareNet={selectedSquareNet}/>
             <SquareNetList squareNets={userSquareNets} setSelectedSquareNet={squareNet => setSelectedSquareNet(squareNet)}/>

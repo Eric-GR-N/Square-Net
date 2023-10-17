@@ -25,7 +25,6 @@ export const SquareNetForm: FC<Props> = ({
 
     const onSubmit = (formData: SquareNetFormData) => {
         onFinish(formData);
-        form.resetFields();
     }
 
     return (
