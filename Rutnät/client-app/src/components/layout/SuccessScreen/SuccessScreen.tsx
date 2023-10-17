@@ -1,6 +1,5 @@
 import React, { FC } from 'react'
 import { colorPalette } from '../../../styles/colorPalette'
-import { buttonStyle } from '../../RegisterPage/RegisterPage'
 import { loginUser } from '../../../auth/authService'
 
 type Props = {
@@ -27,8 +26,8 @@ export const SuccessScreen: FC<Props> = ({text, login}) => {
             borderRadius: '5px',
         }}>{text}</h1>
         
-        {login && <button style={buttonStyle} onClick={loginUser}>
+        {/* {login && <button style={buttonStyle} onClick={loginUser}>
             Logga In
-        </button>}
+        </button>} */}
         </div>
   )}
