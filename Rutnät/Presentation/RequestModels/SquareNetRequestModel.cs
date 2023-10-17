@@ -9,5 +9,6 @@ namespace Presentation.RequestModels
         public Guid Id { get; set; }
         public string Name { get; set; }
         public List<SquareRequestModel> Squares { get; set; } = new List<SquareRequestModel>();
+        public Guid? ApplicationUserId { get; set; }
     }
 }

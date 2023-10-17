@@ -114,7 +114,7 @@ namespace Presentation.Controllers
             {
                 var existingSquareNet = await _squareNetRepository.GetSquareNetByNameAsync(squareNet.Name);
 
-                if (existingSquareNet != null)
+                if (existingSquareNet != null && existingSquareNet.Id != squareNet.Id)
                 {
                     return BadRequest("A square net with that name already exists");
                 }
