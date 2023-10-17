@@ -13,6 +13,8 @@ import { SquareNet } from '../../interfaces/Squares'
 import userManager from '../../auth/authService'
 import { SquareNetForm } from '../SaveSquareNetMenu'
 import { message } from 'antd'
+import LoadingScreen from '../layout/LoadingScreen/LoadingScreen'
+import { ErrorScreen } from '../layout/ErrorScreen'
 
 type Props = {}
 
@@ -89,31 +91,44 @@ export const Home: FC<Props> = () => {
     });
   };
   
-  return (
-    <PageContainer>
-        <PageContentContainer style={{
-          display: 'flex',
-          flexDirection: 'column',
-          height: '100%'
-          }}>
-            <Button text="Create New" style={{margin: '30px 0px', alignSelf: 'flex-end'}} onClick={() => {
-              setSelectedSquareNet(undefined);
-              setModalopen(true);
-            }
-              }/>
-            <SquareNetContainer squares={selectedSquareNet?.squares}
-            onSquareClick={updatedSquare => selectedSquareNet?.squares &&  setSelectedSquareNet({...selectedSquareNet,
-              squares: selectedSquareNet?.squares.map(square => square.id === updatedSquare.id ? updatedSquare : square)})}
-            />
-            {(userSquareNets.length > 0 && selectedSquareNet) && <SquareNetForm onFinish={formData => handleSquareNetSubmit(formData, SquareNetFormType.Edit)} selectedSquareNet={selectedSquareNet}/>}
-            <SquareNetList
-            squareNets={userSquareNets}
-            setSelectedSquareNet={squareNet => setSelectedSquareNet(squareNet)}
-            selectedSquareNetId={selectedSquareNet?.id}
-            onDelete={handleDelete}
-            />
-        </PageContentContainer>
-        <CreateSquareNetModal visible={modalOpen} onCancel={() => setModalopen(false)} onFinish={formData => handleSquareNetSubmit(formData, SquareNetFormType.Create)}/>
-    </PageContainer>
-  )
+  if (pageStatus === FetchStatus.Loading) {
+    return <LoadingScreen />;
+}
+
+if (pageStatus === FetchStatus.Error) {
+    return <ErrorScreen />;
+}
+
+if (pageStatus === FetchStatus.Success) {
+    return (
+        <PageContainer>
+            <PageContentContainer style={{
+                display: 'flex',
+                flexDirection: 'column',
+                height: '100%'
+            }}>
+                <Button text="Create New" style={{ margin: '30px 0px', alignSelf: 'flex-end' }} onClick={() => {
+                    setSelectedSquareNet(undefined);
+                    setModalopen(true);
+                }
+                } />
+                <SquareNetContainer squares={selectedSquareNet?.squares}
+                    onSquareClick={updatedSquare => selectedSquareNet?.squares && setSelectedSquareNet({
+                        ...selectedSquareNet,
+                        squares: selectedSquareNet?.squares.map(square => square.id === updatedSquare.id ? updatedSquare : square)
+                    })}
+                />
+                {(userSquareNets.length > 0 && selectedSquareNet) && <SquareNetForm onFinish={formData => handleSquareNetSubmit(formData, SquareNetFormType.Edit)} selectedSquareNet={selectedSquareNet} />}
+                <SquareNetList
+                    squareNets={userSquareNets}
+                    setSelectedSquareNet={squareNet => setSelectedSquareNet(squareNet)}
+                    selectedSquareNetId={selectedSquareNet?.id}
+                    onDelete={handleDelete}
+                />
+            </PageContentContainer>
+            <CreateSquareNetModal visible={modalOpen} onCancel={() => setModalopen(false)} onFinish={formData => handleSquareNetSubmit(formData, SquareNetFormType.Create)} />
+        </PageContainer>
+    );
+}
+return null;
 }
