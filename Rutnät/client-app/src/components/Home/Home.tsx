@@ -73,7 +73,7 @@ export const Home: FC<Props> = () => {
   };
 
   const handleDelete = (id: string) => {
-    apiFetch<SquareNet>(`https://localhost:7162/api/SquareNet/${id}`, undefined, HttpMethod.DELETE, false, 'application/json', true)
+    apiFetch(`https://localhost:7162/api/SquareNet/${id}`, undefined, HttpMethod.DELETE, false, 'application/json', true)
     .then(() => {
       setUserSquareNets(prev => prev.filter(squareNet => squareNet.id !== id));
       setPageStatus(FetchStatus.Success)
@@ -97,7 +97,7 @@ export const Home: FC<Props> = () => {
             }
               }/>
             <SquareNetContainer squares={selectedSquareNet?.squares}/>
-            <SquareNetForm onFinish={formData => handleSquareNetSubmit(formData, SquareNetFormType.Edit)} selectedSquareNet={selectedSquareNet}/>
+            {(userSquareNets.length > 0 && selectedSquareNet) && <SquareNetForm onFinish={formData => handleSquareNetSubmit(formData, SquareNetFormType.Edit)} selectedSquareNet={selectedSquareNet}/>}
             <SquareNetList
             squareNets={userSquareNets}
             setSelectedSquareNet={squareNet => setSelectedSquareNet(squareNet)}
