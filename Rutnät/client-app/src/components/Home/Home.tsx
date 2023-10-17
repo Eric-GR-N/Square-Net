@@ -76,6 +76,7 @@ export const Home: FC<Props> = () => {
     apiFetch(`https://localhost:7162/api/SquareNet/${id}`, undefined, HttpMethod.DELETE, false, 'application/json', true)
     .then(() => {
       setUserSquareNets(prev => prev.filter(squareNet => squareNet.id !== id));
+      setSelectedSquareNet(undefined);
       setPageStatus(FetchStatus.Success)
     })
     .catch((err) => {

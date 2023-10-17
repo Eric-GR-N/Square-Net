@@ -48,7 +48,9 @@ export const apiFetch = async<T>(
       throw new Error(`API call failed with status ${result.status}: ${errorMessage}`);
     }
     
-    if (typeof result.json === 'function') {
+    if (result.status === 204) {
+      return null as T;
+    } else if (typeof result.json === 'function') {
       return await result.json() as T;
     } else {
       throw new Error('Response is not a valid JSON');
