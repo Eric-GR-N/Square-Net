@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using Application.Exceptions;
+using AutoMapper;
 using Domain.Dtos;
 using IdentityServer4.Extensions;
 using Infrastructure.Entities;
@@ -127,6 +128,24 @@ namespace Presentation.Controllers
             catch (Exception)
             {
                 return BadRequest("Something went wrong");
+            }
+        }
+
+        [HttpDelete("{id:guid}")]
+        public async Task<IActionResult> DeleteSquareNet(Guid id)
+        {
+            try
+            {
+                await _squareNetRepository.DeleteSquareNetAsync(id);
+                return NoContent();
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception)
+            {
+                return BadRequest($"Could not delete SquareNet");
             }
         }
     }

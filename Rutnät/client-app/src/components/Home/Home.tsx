@@ -28,7 +28,6 @@ export const Home: FC<Props> = () => {
         try {
             const user = await userManager.getUser();
 
-            // Make sure user and userId exist
             if (!user || !user.profile.sub) {
                 throw new Error('User not found');
             }
@@ -72,6 +71,18 @@ export const Home: FC<Props> = () => {
         setPageStatus(FetchStatus.Error);
       });
   };
+
+  const handleDelete = (id: string) => {
+    apiFetch<SquareNet>(`https://localhost:7162/api/SquareNet/${id}`, undefined, HttpMethod.DELETE, false, 'application/json', true)
+    .then(() => {
+      setUserSquareNets(prev => prev.filter(squareNet => squareNet.id !== id));
+      setPageStatus(FetchStatus.Success)
+    })
+    .catch((err) => {
+      console.log(err);
+      setPageStatus(FetchStatus.Error);
+    });
+  };
   
   return (
     <PageContainer>
@@ -87,7 +98,12 @@ export const Home: FC<Props> = () => {
               }/>
             <SquareNetContainer squares={selectedSquareNet?.squares}/>
             <SquareNetForm onFinish={formData => handleSquareNetSubmit(formData, SquareNetFormType.Edit)} selectedSquareNet={selectedSquareNet}/>
-            <SquareNetList squareNets={userSquareNets} setSelectedSquareNet={squareNet => setSelectedSquareNet(squareNet)}/>
+            <SquareNetList
+            squareNets={userSquareNets}
+            setSelectedSquareNet={squareNet => setSelectedSquareNet(squareNet)}
+            selectedSquareNetId={selectedSquareNet?.id}
+            onDelete={handleDelete}
+            />
         </PageContentContainer>
         <CreateSquareNetModal visible={modalOpen} onCancel={() => setModalopen(false)} onFinish={formData => handleSquareNetSubmit(formData, SquareNetFormType.Create)}/>
     </PageContainer>

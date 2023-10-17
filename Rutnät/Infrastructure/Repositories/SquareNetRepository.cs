@@ -1,4 +1,5 @@
-﻿using Infrastructure.Entities;
+﻿using Application.Exceptions;
+using Infrastructure.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,7 @@ namespace Infrastructure.Repositories
         Task UpdateSquareNetAsync(SquareNet updatedSquare);
 
         Task<SquareNet> CreateSquareNetAsync(SquareNet squareNet);
+        Task DeleteSquareNetAsync(Guid id);
 
     }
     public class SquareNetRepository : RepositoryBase<SquareNet>, ISquareNetRepository
@@ -45,6 +47,19 @@ namespace Infrastructure.Repositories
         public async Task<SquareNet?> GetSquareNetByNameAsync(string name)
         {
             return await _context.SquareNets.FirstOrDefaultAsync(_ => _.Name == name);
+        }
+
+        public async Task DeleteSquareNetAsync(Guid id)
+        {
+            var squareNet = await GetByIdAsync(id);
+            if (squareNet != null)
+            {
+                Remove(squareNet);
+            }
+            else
+            {
+                throw new EntityNotFoundException($"SquareNet with ID {id} was not found.");
+            }
         }
     }
 }
