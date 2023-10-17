@@ -97,7 +97,10 @@ export const Home: FC<Props> = () => {
               setModalopen(true);
             }
               }/>
-            <SquareNetContainer squares={selectedSquareNet?.squares}/>
+            <SquareNetContainer squares={selectedSquareNet?.squares}
+            onSquareClick={updatedSquare => selectedSquareNet?.squares &&  setSelectedSquareNet({...selectedSquareNet,
+              squares: selectedSquareNet?.squares.map(square => square.id === updatedSquare.id ? updatedSquare : square)})}
+            />
             {(userSquareNets.length > 0 && selectedSquareNet) && <SquareNetForm onFinish={formData => handleSquareNetSubmit(formData, SquareNetFormType.Edit)} selectedSquareNet={selectedSquareNet}/>}
             <SquareNetList
             squareNets={userSquareNets}
