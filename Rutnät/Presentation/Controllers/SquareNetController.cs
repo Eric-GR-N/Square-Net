@@ -84,9 +84,9 @@ namespace Presentation.Controllers
                         Squares = squareDtos,
                     };
 
-                    await _squareNetRepository.CreateSquareNetAsync(_mapper.Map<SquareNet>(squareNetDto));
+                    var newEntity = await _squareNetRepository.CreateSquareNetAsync(_mapper.Map<SquareNet>(squareNetDto));
 
-                    var response = _mapper.Map<SquareNetResponseModel>(squareNetDto);
+                    var response = _mapper.Map<SquareNetResponseModel>(newEntity);
 
                     return Ok(response);
                 }

@@ -12,9 +12,12 @@ namespace Presentation.Profiles
         {
             CreateMap<SquareRequestModel, Square>();
             CreateMap<Square, SquareResponseModel>();
+
             CreateMap<Square, SquareDto>();
             CreateMap<SquareDto, Square>();
+
             CreateMap<SquareDto, SquareResponseModel>();
+            CreateMap<SquareResponseModel, SquareDto>();
         }
     }
 }

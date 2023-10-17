@@ -15,7 +15,7 @@ namespace Infrastructure.Repositories
         Task<SquareNet?> GetSquareNetByNameAsync(string name);
         Task UpdateSquareNetAsync(SquareNet updatedSquare);
 
-        Task CreateSquareNetAsync(SquareNet squareNet);
+        Task<SquareNet> CreateSquareNetAsync(SquareNet squareNet);
 
     }
     public class SquareNetRepository : RepositoryBase<SquareNet>, ISquareNetRepository
@@ -32,9 +32,9 @@ namespace Infrastructure.Repositories
             await UpdateAsync(updatedSquare);
         }
 
-        public async Task CreateSquareNetAsync(SquareNet squareNet)
+        public async Task<SquareNet> CreateSquareNetAsync(SquareNet squareNet)
         {
-            await AddAsync(squareNet);
+            return await AddAsync(squareNet);
         }
 
         public async Task<SquareNet?> GetSquareNetByIdAsync(Guid id)

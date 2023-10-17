@@ -10,7 +10,7 @@ namespace Infrastructure.Repositories
     public interface IRepositoryBase<T> where T : class
     {
         Task<T?> GetByIdAsync(object id);
-        Task AddAsync(T entity);
+        Task<T> AddAsync(T entity);
         void Remove(T entity);
         Task UpdateAsync(T entity);
         Task<int> SaveChangesAsync();
@@ -25,10 +25,11 @@ namespace Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task AddAsync(T entity)
+        public async Task<T> AddAsync(T entity)
         {
             await _context.Set<T>().AddAsync(entity);
             await _context.SaveChangesAsync();
+            return entity;
         }
 
         public async Task<T?> GetByIdAsync(object id)

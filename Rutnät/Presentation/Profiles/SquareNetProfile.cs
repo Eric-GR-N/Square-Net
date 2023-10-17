@@ -13,9 +13,13 @@ namespace Presentation.Profiles
         public SquareNetProfile()
         {
             CreateMap<SquareNetRequestModel, SquareNet>();
+
             CreateMap<SquareNet, SquareNetResponseModel>();
+
             CreateMap<SquareNet, SquareNetDto>();
             CreateMap<SquareNetDto, SquareNet>();
+
+            CreateMap<SquareNetDto, SquareNetResponseModel>();
         }
 
     }
