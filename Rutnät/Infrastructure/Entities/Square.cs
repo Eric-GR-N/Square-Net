@@ -10,6 +10,8 @@ namespace Infrastructure.Entities
     public class Square
     {
         public Guid Id { get; set; }
-        public SquareColor Color { get; set; }
+        public int Color { get; set; }
+        public Guid? SquareNetId { get; set; }
+        public SquareNet SquareNet { get; set; }
     }
 }

@@ -8,5 +8,18 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
     public DbSet<SquareNet> SquareNets { get; set; }
     public DbSet<Square> Squares { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<Square>()
+            .HasOne(s => s.SquareNet)
+            .WithMany(sn => sn.Squares)
+            .HasForeignKey(s => s.SquareNetId)
+            .OnDelete(DeleteBehavior.Cascade);
+    }
 }
+
+
 
