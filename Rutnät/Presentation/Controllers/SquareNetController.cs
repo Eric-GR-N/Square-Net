@@ -125,7 +125,7 @@ namespace Presentation.Controllers
                 var responseModel = _mapper.Map<SquareNetResponseModel>(squareNetEntity);
                 return Ok(responseModel);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return BadRequest("Something went wrong");
             }
