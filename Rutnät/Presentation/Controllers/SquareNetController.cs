@@ -112,9 +112,9 @@ namespace Presentation.Controllers
 
             try
             {
-                var existingSquareNet = await _squareNetRepository.GetSquareNetByNameAsync(squareNet.Name);
+                var existingSquareNet = await _squareNetRepository.CheckDuplicateNamesAsync(squareNet.Name, squareNet.Id);
 
-                if (existingSquareNet != null && existingSquareNet.Id != squareNet.Id)
+                if (existingSquareNet)
                 {
                     return BadRequest("A square net with that name already exists");
                 }
@@ -125,7 +125,7 @@ namespace Presentation.Controllers
                 var responseModel = _mapper.Map<SquareNetResponseModel>(squareNetEntity);
                 return Ok(responseModel);
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return BadRequest("Something went wrong");
             }

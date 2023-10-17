@@ -14,6 +14,7 @@ namespace Infrastructure.Repositories
         Task<List<SquareNet>> GetSquareNetsByUserIdAsync(Guid id);
         Task<SquareNet?> GetSquareNetByIdAsync(Guid id);
         Task<SquareNet?> GetSquareNetByNameAsync(string name);
+        Task<bool> CheckDuplicateNamesAsync(string name, Guid id);
         Task UpdateSquareNetAsync(SquareNet updatedSquare);
 
         Task<SquareNet> CreateSquareNetAsync(SquareNet squareNet);
@@ -60,6 +61,11 @@ namespace Infrastructure.Repositories
             {
                 throw new EntityNotFoundException($"SquareNet with ID {id} was not found.");
             }
+        }
+
+        public async Task<bool> CheckDuplicateNamesAsync(string name, Guid id)
+        {
+            return await _context.SquareNets.AnyAsync(_ => _.Name == name && _.Id != id);
         }
     }
 }
