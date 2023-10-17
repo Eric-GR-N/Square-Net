@@ -22,6 +22,7 @@ export const Home: FC<Props> = () => {
   const [pageStatus, setPageStatus] = useState<FetchStatus>(FetchStatus.Idle);
   const [userSquareNets, setUserSquareNets] = useState<SquareNet[]>([]);
   const [selectedSquareNet, setSelectedSquareNet] = useState<SquareNet>();
+  const [editMode, setEditMode] = useState<boolean>(false);
   const [modalOpen, setModalopen] = useState<boolean>(false);
 
   useEffect(() => {
@@ -67,6 +68,7 @@ export const Home: FC<Props> = () => {
           setUserSquareNets(prev => prev.map(squareNet => 
             squareNet.id === result.id ? result : squareNet
           ));
+          setSelectedSquareNet(result);
           message.success('SquareNet updated successfully');
         }
         setPageStatus(FetchStatus.Success)
@@ -105,7 +107,7 @@ if (pageStatus === FetchStatus.Success) {
                 height: '100%'
             }}>
               <div style={{ margin: '30px 0px', alignSelf: 'flex-end' }}>
-              <Button text="Sign out" onClick={logoutUser} />
+                <Button text="Sign out" onClick={logoutUser} />
                 <Button text="Create New" style={{ marginLeft: 10 }} onClick={() => {
                     setSelectedSquareNet(undefined);
                     setModalopen(true);
@@ -118,12 +120,13 @@ if (pageStatus === FetchStatus.Success) {
                         squares: selectedSquareNet?.squares.map(square => square.id === updatedSquare.id ? updatedSquare : square)
                     })}
                 />
-                {(userSquareNets.length > 0 && selectedSquareNet) && <SquareNetForm onFinish={formData => handleSquareNetSubmit(formData, SquareNetFormType.Edit)} selectedSquareNet={selectedSquareNet} />}
+                {(userSquareNets.length > 0 && selectedSquareNet && editMode) && <SquareNetForm onFinish={formData => handleSquareNetSubmit(formData, SquareNetFormType.Edit)} selectedSquareNet={selectedSquareNet} />}
                 <SquareNetList
                     squareNets={userSquareNets}
                     setSelectedSquareNet={squareNet => setSelectedSquareNet(squareNet)}
                     selectedSquareNetId={selectedSquareNet?.id}
                     onDelete={handleDelete}
+                    editActivated={isActive => setEditMode(isActive)}
                 />
             </PageContentContainer>
             <CreateSquareNetModal visible={modalOpen} onCancel={() => setModalopen(false)} onFinish={formData => handleSquareNetSubmit(formData, SquareNetFormType.Create)} />
