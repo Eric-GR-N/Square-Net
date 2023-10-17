@@ -36,7 +36,7 @@ export const RegisterPage: React.FC = () => {
             content = <ErrorScreen />;
             break;
         case FetchStatus.Success:
-            content = <SuccessScreen text="Klart" login={true} />;
+            content = <SuccessScreen text="Klart!" login={true} />;
             break;
         default:
             content = (

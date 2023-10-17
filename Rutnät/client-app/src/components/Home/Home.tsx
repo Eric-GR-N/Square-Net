@@ -14,7 +14,6 @@ import userManager, { logoutUser } from '../../auth/authService'
 import { SquareNetForm } from '../SaveSquareNetMenu'
 import { message } from 'antd'
 import LoadingScreen from '../layout/LoadingScreen/LoadingScreen'
-import { ErrorScreen } from '../layout/ErrorScreen'
 
 type Props = {}
 
@@ -41,8 +40,8 @@ export const Home: FC<Props> = () => {
             setUserSquareNets(data);
             setPageStatus(FetchStatus.Success);
         } catch (err) {
-            console.log(err);
-            setPageStatus(FetchStatus.Error);
+          setPageStatus(FetchStatus.Idle);
+          message.error('Could not fetch SquareNets');
         }
     };
 
@@ -73,8 +72,8 @@ export const Home: FC<Props> = () => {
         setPageStatus(FetchStatus.Success)
       })
       .catch(() => {
+        setPageStatus(FetchStatus.Idle);
         message.error('Could not save SquareNet');
-        setPageStatus(FetchStatus.Error);
       }).finally(() => setEditMode(false));
   };
 
@@ -88,8 +87,8 @@ export const Home: FC<Props> = () => {
       setPageStatus(FetchStatus.Success)
     })
     .catch(() => {
+      setPageStatus(FetchStatus.Idle);
       message.error('Could not delete SquareNet');
-      setPageStatus(FetchStatus.Error);
     }).finally(() => setEditMode(false));
   };
   
@@ -97,7 +96,7 @@ export const Home: FC<Props> = () => {
     return <PageContainer><LoadingScreen /></PageContainer>;
 }
 
-if (pageStatus === FetchStatus.Success) {
+if (pageStatus === FetchStatus.Success || pageStatus === FetchStatus.Idle) {
     return (
         <PageContainer>
             <PageContentContainer style={{
