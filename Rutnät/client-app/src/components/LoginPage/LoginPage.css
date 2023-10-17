@@ -49,3 +49,19 @@
     justify-content: center;
     align-items: center;
 }
+
+.form-title span:nth-child(4n+1) {
+    color: green;
+}
+
+.form-title span:nth-child(4n+2) {
+    color: orange;
+}
+
+.form-title span:nth-child(4n+3) {
+    color: red;
+}
+
+.form-title span:nth-child(4n+4) {
+    color: grey;
+}

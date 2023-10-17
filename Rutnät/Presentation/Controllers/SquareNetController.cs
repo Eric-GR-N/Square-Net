@@ -1,15 +1,12 @@
 ﻿using Application.Exceptions;
 using AutoMapper;
 using Domain.Dtos;
-using IdentityServer4.Extensions;
 using Infrastructure.Entities;
 using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.RequestModels;
 using Presentation.ResponseModels;
-using System.Xml.Linq;
 
 namespace Presentation.Controllers
 {
