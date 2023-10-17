@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { Button } from '../layout/Button';
 import { Form, Input } from 'antd';
 import { SquareNetFormData } from '../../interfaces/forms';
@@ -6,19 +6,26 @@ import { SquareNetFormData } from '../../interfaces/forms';
 type Props = {
     buttonText?: string;
     formName?: string;
+    selectedSquareNet?: SquareNetFormData;
     onFinish?: (formData: SquareNetFormData) => void;
 }
 
-export const SaveSquareNetMenu: FC<Props> = ({
+export const SquareNetForm: FC<Props> = ({
     buttonText = 'Save',
     formName = 'editSquareNet',
     onFinish = () => {},
+    selectedSquareNet
 }) => {
 
     const [form] = Form.useForm<SquareNetFormData>();
 
+    useEffect(() => {
+        selectedSquareNet && form.setFieldsValue({id: selectedSquareNet.id, name: selectedSquareNet.name});
+    }, [selectedSquareNet])
+
     const onSubmit = (formData: SquareNetFormData) => {
         onFinish(formData);
+        form.resetFields();
     }
 
     return (

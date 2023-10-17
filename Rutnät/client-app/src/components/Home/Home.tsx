@@ -4,7 +4,6 @@ import { SquareNetContainer } from '../SquareNetContainer'
 import { Button } from '../layout/Button/Button'
 import { PageContentContainer } from '../layout/PageContentContainer'
 import { SquareNetList } from '../SquareNetList'
-import { SaveSquareNetMenu } from '../SaveSquareNetMenu'
 import { FetchStatus, HttpMethod } from '../../enums'
 import { apiFetch } from '../../integration'
 import { CreateSquareNetModal } from '../CreateSquareNetModal/CreateSquareNetModal'
@@ -12,6 +11,7 @@ import { SquareNetFormType } from '../../enums/forms'
 import { SquareNetFormData } from '../../interfaces/forms'
 import { SquareNet } from '../../interfaces/Squares'
 import userManager from '../../auth/authService'
+import { SquareNetForm } from '../SaveSquareNetMenu'
 
 type Props = {}
 
@@ -46,8 +46,6 @@ export const Home: FC<Props> = () => {
     fetchUserAndSquareNets();
 }, []);
 
-  console.log(selectedSquareNet)
-
   const handleSquareNetSubmit = (formdata: SquareNetFormData, type: SquareNetFormType) => {
     setModalopen(false);
     setPageStatus(FetchStatus.Loading);
@@ -80,7 +78,7 @@ export const Home: FC<Props> = () => {
           }}>
             <Button text="Create New" style={{margin: '30px 0px', alignSelf: 'flex-end'}} onClick={() => setModalopen(true)}/>
             <SquareNetContainer squares={selectedSquareNet?.squares}/>
-            <SaveSquareNetMenu onFinish={formData => handleSquareNetSubmit(formData, SquareNetFormType.Edit)}/>
+            <SquareNetForm onFinish={formData => handleSquareNetSubmit(formData, SquareNetFormType.Edit)} selectedSquareNet={selectedSquareNet}/>
             <SquareNetList squareNets={userSquareNets} setSelectedSquareNet={squareNet => setSelectedSquareNet(squareNet)}/>
         </PageContentContainer>
         <CreateSquareNetModal visible={modalOpen} onCancel={() => setModalopen(false)} onFinish={formData => handleSquareNetSubmit(formData, SquareNetFormType.Create)}/>
