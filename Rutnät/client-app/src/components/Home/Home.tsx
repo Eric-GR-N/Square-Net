@@ -114,11 +114,13 @@ if (pageStatus === FetchStatus.Success) {
                 }
                 } />
               </div>
-                <SquareNetContainer squares={selectedSquareNet?.squares}
-                    onSquareClick={updatedSquare => selectedSquareNet?.squares && setSelectedSquareNet({
-                        ...selectedSquareNet,
-                        squares: selectedSquareNet?.squares.map(square => square.id === updatedSquare.id ? updatedSquare : square)
-                    })}
+                <SquareNetContainer
+                  squares={selectedSquareNet?.squares}
+                  onSquareClick={updatedSquare => selectedSquareNet?.squares && setSelectedSquareNet({
+                          ...selectedSquareNet,
+                          squares: selectedSquareNet?.squares.map(square => square.id === updatedSquare.id ? updatedSquare : square)
+                  })}
+                  editable={editMode}
                 />
                 {(userSquareNets.length > 0 && selectedSquareNet && editMode) && <SquareNetForm onFinish={formData => handleSquareNetSubmit(formData, SquareNetFormType.Edit)} selectedSquareNet={selectedSquareNet} />}
                 <SquareNetList
