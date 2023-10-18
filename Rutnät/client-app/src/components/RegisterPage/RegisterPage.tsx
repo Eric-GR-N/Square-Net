@@ -46,7 +46,7 @@ export const RegisterPage: React.FC = () => {
                         <input className="register-input" type="password" placeholder="Confirm Password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
                     </form>
                     <button className="btn-primary" onClick={handleRegister}>
-                        Registrera
+                        Register
                     </button>
                 </div>
             );
