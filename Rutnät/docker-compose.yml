@@ -1,4 +1,5 @@
 version: '3.8'
+
 services:
   sql_server:
     image: mcr.microsoft.com/mssql/server
@@ -16,3 +17,9 @@ services:
         /opt/mssql/bin/sqlservr & sleep 30
         /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P ${DB_PASSWORD} -Q "CREATE DATABASE SquareNetDB"
         tail -f /dev/null
+  frontend:
+    build:
+      context: ./client-app
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
