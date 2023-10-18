@@ -17,10 +17,14 @@ namespace Presentation.Controllers
     {
         private readonly ISquareNetRepository _squareNetRepository;
         private readonly IMapper _mapper;
-        public SquareNetController(ISquareNetRepository squareNetRepository, IMapper mapper)
+        private readonly ILogger<SquareNetController> _logger;
+        public SquareNetController(ISquareNetRepository squareNetRepository,
+            IMapper mapper,
+            ILogger<SquareNetController> logger)
         {
             _squareNetRepository = squareNetRepository;
             _mapper = mapper;
+            _logger = logger;
         }
 
         [HttpGet("{id:guid}")]
@@ -36,20 +40,13 @@ namespace Presentation.Controllers
             return Ok(squareNet);
         }
 
-        [HttpGet("squareNets/{userId}")]
-        public async Task<ActionResult<List<SquareNetResponseModel>>> GetAllSquareNetsForUserAsync(string userId)
+        [HttpGet("squareNets/{userId:guid}")]
+        public async Task<ActionResult<List<SquareNetResponseModel>>> GetAllSquareNetsForUserAsync(Guid userId)
         {
-            if (Guid.TryParse(userId, out var id))
-            {
-                var squareNets = await _squareNetRepository.GetSquareNetsByUserIdAsync(id);
-                var response = squareNets.Select(_ => _mapper.Map<SquareNetResponseModel>(_)).ToList();
+            var squareNets = await _squareNetRepository.GetSquareNetsByUserIdAsync(userId);
+            var response = squareNets.Select(_ => _mapper.Map<SquareNetResponseModel>(_)).ToList();
 
-                return Ok(response);
-            }
-            else
-            {
-                return BadRequest("Invalid user id format");
-            }
+            return Ok(response);
         }
 
         [HttpPost]
@@ -93,8 +90,9 @@ namespace Presentation.Controllers
                     return BadRequest("Invalid user id format");
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _logger.LogError(e, "Something went wrong when creating square net");
                 return BadRequest("Something went wrong");
             }
         }
@@ -122,8 +120,9 @@ namespace Presentation.Controllers
                 var responseModel = _mapper.Map<SquareNetResponseModel>(squareNetEntity);
                 return Ok(responseModel);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _logger.LogError(e, "Something went wrong when updating square net");
                 return BadRequest("Something went wrong");
             }
         }
@@ -140,8 +139,9 @@ namespace Presentation.Controllers
             {
                 return NotFound(ex.Message);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _logger.LogError(e, "Something went wrong when deleting square net");
                 return BadRequest($"Could not delete SquareNet");
             }
         }
