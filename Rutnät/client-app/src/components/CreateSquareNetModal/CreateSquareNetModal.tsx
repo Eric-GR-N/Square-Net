@@ -1,7 +1,7 @@
 import { Button, Divider, Modal } from 'antd'
 import React, { FC } from 'react'
 import { SquareNetFormData } from '../../interfaces/forms';
-import { SquareNetForm } from '../SaveSquareNetMenu';
+import { SquareNetForm } from '../SquareNetForm';
 
 type Props = {
     visible: boolean;

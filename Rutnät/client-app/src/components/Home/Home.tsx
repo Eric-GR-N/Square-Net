@@ -11,9 +11,11 @@ import { SquareNetFormType } from '../../enums/forms'
 import { SquareNetFormData } from '../../interfaces/forms'
 import { SquareNet } from '../../interfaces/Squares'
 import userManager, { logoutUser } from '../../auth/authService'
-import { SquareNetForm } from '../SaveSquareNetMenu'
+import { SquareNetForm } from '../SquareNetForm'
 import { message } from 'antd'
 import LoadingScreen from '../layout/LoadingScreen/LoadingScreen'
+import { API_BASE_URL } from '../../apiConfig'
+
 
 type Props = {}
 
@@ -35,7 +37,7 @@ export const Home: FC<Props> = () => {
                 throw new Error('User not found');
             }
 
-            const data = await apiFetch<SquareNet[]>(`https://localhost:7162/api/SquareNet/squareNets/${user.profile.sub}`, undefined, HttpMethod.GET, false, 'application/json', true);
+            const data = await apiFetch<SquareNet[]>(`${API_BASE_URL}/SquareNet/squareNets/${user.profile.sub}`, undefined, HttpMethod.GET, false, 'application/json', true);
 
             setUserSquareNets(data);
             setPageStatus(FetchStatus.Success);
@@ -52,7 +54,7 @@ export const Home: FC<Props> = () => {
     setModalopen(false);
     setPageStatus(FetchStatus.Loading);
     const isCreateType = type === SquareNetFormType.Create;
-    const endpoint = `https://localhost:7162/api/SquareNet`;
+    const endpoint = `${API_BASE_URL}/SquareNet`;
     const body = isCreateType ? formdata.name : {...selectedSquareNet, name: formdata.name ?? selectedSquareNet?.name};
     const method = isCreateType ? HttpMethod.POST : HttpMethod.PUT;
   
@@ -79,7 +81,7 @@ export const Home: FC<Props> = () => {
 
   const handleDelete = (id: string) => {
     setPageStatus(FetchStatus.Loading);
-    apiFetch(`https://localhost:7162/api/SquareNet/${id}`, undefined, HttpMethod.DELETE, false, 'application/json', true)
+    apiFetch(`${API_BASE_URL}/SquareNet/${id}`, undefined, HttpMethod.DELETE, false, 'application/json', true)
     .then(() => {
       setUserSquareNets(prev => prev.filter(squareNet => squareNet.id !== id));
       message.success('SquareNet deleted successfully');

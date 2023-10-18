@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { PageContainer } from '../layout/PageContainer';
 import { FetchStatus, HttpMethod } from '../../enums';
 import { apiFetch } from '../../integration/apifetch';
@@ -22,8 +22,7 @@ export const RegisterPage: React.FC = () => {
             confirmPassword: password
         }, HttpMethod.POST, true, 'application/json', false).then(() => {
             setUploadStatus(FetchStatus.Success);
-        }).catch((err) => {
-            console.log(err)
+        }).catch(() => {
             setUploadStatus(FetchStatus.Error);
         });
     }
