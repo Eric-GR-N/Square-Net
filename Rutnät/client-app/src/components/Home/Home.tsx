@@ -63,13 +63,11 @@ export const Home: FC<Props> = () => {
         if(isCreateType){
           setUserSquareNets([...userSquareNets, result])
           setSelectedSquareNet(result);
-          message.success('SquareNet created successfully');
         } else {
           setUserSquareNets(prev => prev.map(squareNet => 
             squareNet.id === result.id ? result : squareNet
           ));
           setSelectedSquareNet(result);
-          message.success('SquareNet updated successfully');
         }
         setPageStatus(FetchStatus.Success)
       })
@@ -84,7 +82,6 @@ export const Home: FC<Props> = () => {
     apiFetch(`${API_BASE_URL}/SquareNet/${id}`, undefined, HttpMethod.DELETE, false, 'application/json', true)
     .then(() => {
       setUserSquareNets(prev => prev.filter(squareNet => squareNet.id !== id));
-      message.success('SquareNet deleted successfully');
       setSelectedSquareNet(undefined);
       setPageStatus(FetchStatus.Success)
     })
