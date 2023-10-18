@@ -1,8 +1,8 @@
-# Rutnät (Square Net)
+# Rutnät (Square Net)<br>
 
 
 
-## Welcome to Rutnät, also known as Square Net! Dive into our user-friendly application, designed to allow you to create, edit, and manage square nets with a modern touch.
+## Welcome to Rutnät, also known as Square Net! <br><br>Dive into our user-friendly application, designed to allow you to create, edit, and manage square nets with a modern touch.
 
 ## Installation
 Follow these steps to get the app up and running:
@@ -15,18 +15,19 @@ Clone the repository to your local machine.
 
 3. Environment Configuration:
 Navigate to the root directory and locate the .env.example file.
-Create a new .env file in the same directory.
+Create a new .env file in the same directory.<br>
 Copy the contents from .env.example to the .env file.
 Define your new db password of choice in the .env file, adhering to the following criteria:
 
-
-  Length: Minimum of 8 characters.
-  Complexity: The password should encompass characters from at least three of these categories:
-  Uppercase letters (A-Z)
-  Lowercase letters (a-z)
-  Base 10 digits (0-9)
-  Non-alphanumeric characters: (!, $, #, %, etc.)
-  Safety: Refrain from using easily guessable passwords such as "password", "12345678", or "abcdefg".
+<br>
+   - Length: Minimum of 8 characters.<br>
+   - Complexity: The password should encompass characters from at least three of these categories:<br>
+   - Uppercase letters (A-Z)<br>
+   - Lowercase letters (a-z)<br>
+   - Base 10 digits (0-9)<br>
+   - Non-alphanumeric characters: (!, $, #, %, etc.)<br>
+   - Safety: Refrain from using easily guessable passwords such as "password", "12345678", or "abcdefg".<br>
+<br>
   
 
 5. Docker Setup:
@@ -52,7 +53,6 @@ Congratulations! The app should now be operational.
 
 ## Usage
 
-Upon launching the app:
 
 ### Authentication:
 
@@ -81,7 +81,7 @@ The app facilitates multiple user accounts. Use the 'Sign Out' button to switch 
 
 ### Client App:
 
-React/TypeScript
+React/TypeScript<br>
 oidc-client
 
 ### Database:
@@ -91,15 +91,17 @@ MSSQL
 
 ### Backend:
 
-HTTPS protocol
-.NET 6 with CLEAN architecture
-Entity Framework
-IdentityServer
-ASP.NET Core Identity
-Bearer Token Protection for square net-related endpoints
-Role handling prepared for future integration
+HTTPS protocol<br>
+.NET 6 with CLEAN architecture<br>
+Entity Framework<br>
+IdentityServer<br>
+ASP.NET Core Identity<br>
+Bearer Token Protection for square net-related endpoints<br>
+Role handling prepared for future integration<br>
+Razor Pages/Handlers for user creation<br>
 
 # Note
-The database password mechanism is configured for development scenarios.
-Always override this in a production environment, especially if deploying on platforms like Azure Web Services.
+ - The database password mechanism is configured for development scenarios.<br>
+ - Always override this in a production environment, especially if deploying on platforms like Azure Web Services.<br>
+ - For this scenario we're using in memory stores for identity server, use real db support if deploying application
 
