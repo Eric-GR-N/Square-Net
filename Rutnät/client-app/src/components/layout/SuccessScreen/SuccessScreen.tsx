@@ -14,7 +14,7 @@ export const SuccessScreen: FC<Props> = ({ text, login }) => {
         <h1 className="success-title">{text}</h1>
         
         {login && <button className="button-style" onClick={loginUser}>
-            Logga In
+            Log in
         </button>}
     </div>
   )

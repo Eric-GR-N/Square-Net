@@ -19,9 +19,9 @@ export const LoginPage: React.FC = () => {
           {renderColoredText("Welcome To Square Net!")}
         </h1>
         <div className='btn-wrapper'>
-            <button className="btn-primary" onClick={loginUser}>Logga In</button>
+            <button className="btn-primary" onClick={loginUser}>Log in</button>
             <Link to="/register" className="btn-link">
-                <button className="btn-primary">Registrera</button>
+                <button className="btn-primary">Register</button>
             </Link>
         </div>
       </div>

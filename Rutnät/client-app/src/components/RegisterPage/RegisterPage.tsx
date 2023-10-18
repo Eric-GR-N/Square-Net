@@ -35,15 +35,15 @@ export const RegisterPage: React.FC = () => {
             content = <ErrorScreen />;
             break;
         case FetchStatus.Success:
-            content = <SuccessScreen text="Klart!" login={true} />;
+            content = <SuccessScreen text="Done!" login={true} />;
             break;
         default:
             content = (
                 <div className="register-form-container">
                     <form className="register-form">
-                        <input className="register-input" type="text" placeholder="Användarnamn" value={username} onChange={(e) => setUsername(e.target.value)} />
-                        <input className="register-input" type="password" placeholder="Lösenord" value={password} onChange={(e) => setPassword(e.target.value)} />
-                        <input className="register-input" type="password" placeholder="Bekräfta Lösenord" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+                        <input className="register-input" type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
+                        <input className="register-input" type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                        <input className="register-input" type="password" placeholder="Confirm Password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
                     </form>
                     <button className="btn-primary" onClick={handleRegister}>
                         Registrera
