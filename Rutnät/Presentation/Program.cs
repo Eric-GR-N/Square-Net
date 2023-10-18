@@ -22,7 +22,6 @@ builder.Services.AddCors(options =>
             .AllowCredentials());
 });
 
-
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(configuration.GetConnectionString("DbConnectionString"),
     b => b.MigrationsAssembly("Infrastructure")));
