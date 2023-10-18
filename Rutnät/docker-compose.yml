@@ -10,6 +10,8 @@ services:
       MSSQL_DB: SquareNetDB
     ports:
       - "1433:1433"
+    volumes:
+      - sqlserver-data:/var/opt/mssql/
     command:
       - /bin/bash
       - -c 
@@ -17,9 +19,6 @@ services:
         /opt/mssql/bin/sqlservr & sleep 30
         /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P ${DB_PASSWORD} -Q "CREATE DATABASE SquareNetDB"
         tail -f /dev/null
-  frontend:
-    build:
-      context: ./client-app
-      dockerfile: Dockerfile
-    ports:
-      - "3000:80"
+
+volumes:
+  sqlserver-data:
