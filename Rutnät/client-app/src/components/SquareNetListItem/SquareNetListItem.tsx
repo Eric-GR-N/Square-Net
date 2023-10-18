@@ -7,13 +7,15 @@ const { Text } = Typography;
 type Props = {
     text: string;
     onClick: () => void;
-    onDelete?: () => void;
+    onDelete: () => void;
+    onEdit: () => void;
     showButtons: boolean;
 }
 export const SquareNetListItem: FC<Props> = ({
     text,
     onClick = () => {},
     onDelete = () => {},
+    onEdit = () => {},
     showButtons
 }) => {
     return (
@@ -31,7 +33,7 @@ export const SquareNetListItem: FC<Props> = ({
             <Text style={{ textAlign: 'start' }}>{text}</Text>
 
             {showButtons && <div style={{ display: 'flex' }}>
-                <Button text="Edit"/>
+                <Button text="Edit" onClick={onEdit}/>
                 <Button text="Delete" style={{ margin: '0px 10px' }} onClick={onDelete}/>
             </div>}
 

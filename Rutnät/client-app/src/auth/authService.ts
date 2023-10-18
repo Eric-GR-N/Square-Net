@@ -1,8 +1,6 @@
 import { UserManager, WebStorageStateStore, Log  } from "oidc-client";
 import authConfig from "./authConfig";
 
-//Log.logger = console;
-
 const userManager = new UserManager({
   ...authConfig,
   userStore: new WebStorageStateStore({ store: window.localStorage })

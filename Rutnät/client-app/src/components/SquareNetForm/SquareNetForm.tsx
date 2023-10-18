@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC } from 'react';
 import { Button } from '../layout/Button';
 import { Form, Input } from 'antd';
 import { SquareNetFormData } from '../../interfaces/forms';
@@ -6,22 +6,18 @@ import { SquareNetFormData } from '../../interfaces/forms';
 type Props = {
     buttonText?: string;
     formName?: string;
-    selectedSquareNet?: SquareNetFormData;
     onFinish?: (formData: SquareNetFormData) => void;
+    visible: boolean;
 }
 
 export const SquareNetForm: FC<Props> = ({
     buttonText = 'Save',
     formName = 'editSquareNet',
     onFinish = () => {},
-    selectedSquareNet
+    visible,
 }) => {
 
     const [form] = Form.useForm<SquareNetFormData>();
-
-    useEffect(() => {
-        selectedSquareNet && form.setFieldsValue({id: selectedSquareNet.id, name: selectedSquareNet.name});
-    }, [selectedSquareNet])
 
     const onSubmit = (formData: SquareNetFormData) => {
         onFinish(formData);
@@ -30,6 +26,7 @@ export const SquareNetForm: FC<Props> = ({
     return (
         <div style={{
             display: 'flex',
+            visibility: visible ? 'visible' : 'hidden',
             justifyContent: 'center',
             alignItems: 'center',
             margin: '30px 0px',
@@ -50,20 +47,14 @@ export const SquareNetForm: FC<Props> = ({
                 }}
             >
                 <Form.Item 
-                    name="id" 
-                    hidden={true}
-                >
-                    <Input style={{ width: '100%' }}/>
-                </Form.Item>
-                <Form.Item 
                     name="name" 
                     style={{
                         flex: 1, 
-                        marginRight: '10px', // spacing between input and button
-                        marginBottom: 0, // remove default margin-bottom
+                        marginRight: '10px',
+                        marginBottom: 0,
                     }}
                 >
-                    <Input style={{ width: '100%' }}/>
+                    <Input style={{ width: '100%' }} placeholder='Name of square net'/>
                 </Form.Item>
                 <Button 
                     type="submit" 
@@ -71,7 +62,7 @@ export const SquareNetForm: FC<Props> = ({
                     style={{
                         flexShrink: 1,
                         minWidth: '50px',
-                        alignSelf: 'center', // ensure it's aligned to the center vertically
+                        alignSelf: 'center',
                     }} 
                 />
             </Form>

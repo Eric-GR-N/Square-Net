@@ -8,6 +8,7 @@ type Props = {
     setSelectedSquareNet: (squareNet: SquareNet) => void;
     selectedSquareNetId: string | undefined;
     onDelete: (id: string) => void;
+    editActivated: (isActive: boolean) => void;
 }
 
 export const SquareNetList:FC<Props> = ({
@@ -15,6 +16,7 @@ export const SquareNetList:FC<Props> = ({
     setSelectedSquareNet = () => {},
     selectedSquareNetId,
     onDelete = () => {},
+    editActivated = () => {},
 }) => {
 
   return (
@@ -27,7 +29,14 @@ export const SquareNetList:FC<Props> = ({
         {
             squareNets.map((squareNet, idx) => {
                 return (
-                    <SquareNetListItem key={idx} text={squareNet?.name} onClick={() => setSelectedSquareNet(squareNet)} onDelete={() => onDelete(selectedSquareNetId!)} showButtons={selectedSquareNetId === squareNet.id}/>
+                    <SquareNetListItem
+                    key={idx}
+                    text={squareNet?.name}
+                    onClick={() => setSelectedSquareNet(squareNet)}
+                    onDelete={() => onDelete(selectedSquareNetId!)}
+                    showButtons={selectedSquareNetId === squareNet.id}
+                    onEdit={() => editActivated(true)}
+                    />
             )})
         }
     </div>
